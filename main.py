@@ -1,7 +1,7 @@
 from pcapy import open_offline
 
-AttackPacket = 'attack.pcap'
-NormalPacket = 'Normal.pcap'
+AttackPacket = 'test.pcap'
+NormalPacket = 'test.pcap'
 
 
 class Rule:
@@ -40,7 +40,7 @@ class PacketFilter:
         self.__rules = rules
         self._attack_pcap = open_offline(AttackPacket)
         self._normal_pcap = open_offline(NormalPacket)
-        self.score = self.__calc_score()
+        self.right_detected, self.wrong_detected = self.__check_detected_packet()
 
     def __set_rules(self, pcap):
         for rule in self.__rules:
@@ -57,7 +57,7 @@ class PacketFilter:
         return wrapper
 
     @staticmethod
-    def __count_packets(pcap):
+    def count_packets(pcap):
         @PacketFilter.counter
         def handler(_, data):
             pass
@@ -66,15 +66,30 @@ class PacketFilter:
 
         return handler.called
 
-    def __calc_score(self):
+    def __check_detected_packet(self):
         self.__set_rules(self._attack_pcap)
-        right_detected = PacketFilter.__count_packets(self._attack_pcap)
+        right_detected = PacketFilter.count_packets(self._attack_pcap)
 
         self.__set_rules(self._normal_pcap)
-        wrong_detected = PacketFilter.__count_packets(self._normal_pcap)
+        wrong_detected = PacketFilter.count_packets(self._normal_pcap)
 
-        return right_detected - wrong_detected
+        return right_detected, wrong_detected
 
+    def __repr__(self):
+        return "-- <PacketFilter> --" \
+               + '\n' + \
+               "Detected Attack packet: %f%%" % ((self.right_detected / total_attack) * 100) \
+               + '\n' + \
+               "Detected Wrong Attack packet %f%%" % ((self.wrong_detected / total_normal) * 100) \
+               + '\n--------------------\n'
+
+    @property
+    def score(self):
+        return self.right_detected - self.wrong_detected
+
+
+total_attack = PacketFilter.count_packets(open_offline(AttackPacket)) * 1.0
+total_normal = PacketFilter.count_packets(open_offline(NormalPacket)) * 1.0
 
 if __name__ == '__main__':
-    rule_set = []
+    print PacketFilter([Rule.port(80, True)])
