@@ -17,8 +17,8 @@ def handler(_, data):
 
     else:
         return None
-    source_ip = ip.get_ip_src()
-    dest_ip = ip.get_ip_dst()
+    src_ip = ip.get_ip_src()
+    dst_ip = ip.get_ip_dst()
     # print "Packet detected: %s -> %s" % (source_ip, dest_ip)
     print payload
 
