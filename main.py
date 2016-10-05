@@ -9,14 +9,14 @@ class Rule:
         pass
 
     @staticmethod
-    def _active_rule(active):
+    def __active_rule(active):
         if active:
             return ""
         else:
             return "not"
 
     @staticmethod
-    def _location_rule(location):
+    def __location_rule(location):
         if location is None:
             return ""
         else:
@@ -24,11 +24,11 @@ class Rule:
 
     @staticmethod
     def port(port, active, location=None):
-        return "%s port %s %d" % (Rule._location_rule(location), Rule._active_rule(active), port)
+        return "%s port %s %d" % (Rule.__location_rule(location), Rule.__active_rule(active), port)
 
     @staticmethod
     def ip(ip, active, location=None):
-        return "ip %s %s %s" % (Rule._location_rule(location), Rule._active_rule(active), ip)
+        return "ip %s %s %s" % (Rule.__location_rule(location), Rule.__active_rule(active), ip)
 
 
 class PacketFilter:
