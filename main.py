@@ -1,14 +1,18 @@
-from txshark import TsharkService
-from twisted.python import log
-
-AttackPacket = 'attack.pcap'
-NormalPacket = 'normal.pcap'
+from pcapy import open_offline
+from impacket.ImpactDecoder import *
 
 
-class PacketFilter(TsharkService):
+def handler(header, data):
+    eth = EthDecoder().decode(data)
+    ip = eth.child()
+    proto = ip.child()
+    source_ip = ip.get_ip_src()
+    dest_ip = ip.get_ip_dst()
+    print "Packet detected: %s -> %s" % (source_ip, dest_ip)
 
-    def packetReceived(self, packet):
-        log.msg("Packet received: {}".format(packet))
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+pcap = open_offline('test.pcap')
+
+pcap.setfilter('tcp and port 80')
+
+pcap.loop(0, handler)
