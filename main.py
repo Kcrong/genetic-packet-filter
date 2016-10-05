@@ -1,3 +1,4 @@
+#! /usr/bin/python2
 from pcapy import open_offline
 
 AttackPacket = 'test.pcap'
