@@ -30,6 +30,10 @@ class Rule:
     def ip(ip, active, location=None):
         return "ip %s %s %s" % (Rule.__location_rule(location), Rule.__active_rule(active), ip)
 
+    @staticmethod
+    def protocol(proto):
+        return proto
+
 
 class PacketFilter:
     def __init__(self, rules):
@@ -70,3 +74,7 @@ class PacketFilter:
         wrong_detected = PacketFilter.__count_packets(self._normal_pcap)
 
         return right_detected - wrong_detected
+
+
+if __name__ == '__main__':
+    rule_set = []
