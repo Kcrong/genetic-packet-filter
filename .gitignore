@@ -1,3 +1,6 @@
+# Packet file for debug
+*.pcap
+
 # IDE file
 .idea/
 
