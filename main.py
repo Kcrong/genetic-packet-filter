@@ -51,7 +51,7 @@ class PacketFilter:
     def counter(func):
         def wrapper(*args, **kwargs):
             wrapper.called += 1
-            return func(*args, **kwargs)
+            return func()
 
         wrapper.called = 0
         wrapper.__name__ = func.__name__
@@ -60,11 +60,12 @@ class PacketFilter:
     @staticmethod
     def count_packets(pcap):
         @PacketFilter.counter
-        def handler(_, data):
+        def handler():
             pass
 
         pcap.loop(0, handler)
 
+        # return call count
         return handler.called
 
     def __check_detected_packet(self):
