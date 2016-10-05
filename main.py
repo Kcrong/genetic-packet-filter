@@ -41,6 +41,7 @@ class PacketFilter:
         self._attack_pcap = open_offline(AttackPacket)
         self._normal_pcap = open_offline(NormalPacket)
         self.right_detected, self.wrong_detected = self.__check_detected_packet()
+        self.__score = self.right_detected - self.wrong_detected
 
     def __set_rules(self, pcap):
         for rule in self.__rules:
@@ -85,7 +86,7 @@ class PacketFilter:
 
     @property
     def score(self):
-        return self.right_detected - self.wrong_detected
+        return self.__score
 
 
 total_attack = PacketFilter.count_packets(open_offline(AttackPacket)) * 1.0
