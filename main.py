@@ -129,7 +129,6 @@ total_normal = PacketFilter.count_packets(open_offline(NormalPacket)) * 1.0
 
 
 def main():
-    print "Start"
     rules = init_rules()
 
     p = PacketFilter(rules)
