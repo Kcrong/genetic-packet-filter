@@ -1,8 +1,30 @@
 #! /usr/bin/python2
+import time
 from pcapy import open_offline
 
 AttackPacket = 'test.pcap'
 NormalPacket = 'test.pcap'
+
+
+def counter(func):
+    def wrapper(*args, **kwargs):
+        wrapper.called += 1
+        return func()
+
+    wrapper.called = 0
+    wrapper.__name__ = func.__name__
+    return wrapper
+
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print "%s : %f" % (func.__name__, (end - start))
+        return result
+
+    return wrapper
 
 
 class Rule:
@@ -49,18 +71,8 @@ class PacketFilter:
             pcap.setfilter(rule)
 
     @staticmethod
-    def counter(func):
-        def wrapper(*args, **kwargs):
-            wrapper.called += 1
-            return func()
-
-        wrapper.called = 0
-        wrapper.__name__ = func.__name__
-        return wrapper
-
-    @staticmethod
     def count_packets(pcap):
-        @PacketFilter.counter
+        @counter
         def handler():
             pass
 
@@ -91,8 +103,34 @@ class PacketFilter:
         return self.__score
 
 
+@timer
+def init_rules():
+    # all_active_ports = [Rule.port(num, True) for num in range(1, 65536)]
+    # all_inactive_ports = [Rule.port(num, False) for num in range(1, 65536)]
+
+    all_active_ports = list()
+    all_inactive_ports = list()
+
+    all_src_ips = list()
+    all_dst_ips = list()
+
+    for num in range(1, 65535):
+        all_active_ports.append(Rule.port(num, True))
+        all_inactive_ports.append(Rule.port(num, False))
+
+    all_ports = all_active_ports + all_inactive_ports
+    all_ips = all_src_ips + all_dst_ips
+
+    return all_ports + all_ips
+
+
 total_attack = PacketFilter.count_packets(open_offline(AttackPacket)) * 1.0
 total_normal = PacketFilter.count_packets(open_offline(NormalPacket)) * 1.0
 
 if __name__ == '__main__':
-    print PacketFilter([Rule.port(80, True)])
+    print "Start"
+    rules = init_rules()
+
+    p = PacketFilter(rules)
+    print p
+    print p.score
