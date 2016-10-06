@@ -127,10 +127,15 @@ def init_rules():
 total_attack = PacketFilter.count_packets(open_offline(AttackPacket)) * 1.0
 total_normal = PacketFilter.count_packets(open_offline(NormalPacket)) * 1.0
 
-if __name__ == '__main__':
+
+def main():
     print "Start"
     rules = init_rules()
 
     p = PacketFilter(rules)
     print p
     print p.score
+
+
+if __name__ == '__main__':
+    main()
