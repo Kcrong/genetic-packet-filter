@@ -1,6 +1,7 @@
 #! /usr/bin/python2
 import time
 from pcapy import open_offline
+from impacket.ImpactDecoder import EthDecoder
 
 AttackPacket = 'test.pcap'
 NormalPacket = 'test.pcap'
@@ -9,7 +10,7 @@ NormalPacket = 'test.pcap'
 def counter(func):
     def wrapper(*args, **kwargs):
         wrapper.called += 1
-        return func()
+        return func(*args, **kwargs)
 
     wrapper.called = 0
     wrapper.__name__ = func.__name__
@@ -73,7 +74,7 @@ class PacketFilter:
     @staticmethod
     def count_packets(pcap):
         @counter
-        def handler():
+        def handler(_hdr, _data):
             pass
 
         pcap.loop(0, handler)
@@ -108,20 +109,45 @@ def init_rules():
     # all_active_ports = [Rule.port(num, True) for num in range(1, 65536)]
     # all_inactive_ports = [Rule.port(num, False) for num in range(1, 65536)]
 
-    all_active_ports = list()
-    all_inactive_ports = list()
-
-    all_src_ips = list()
-    all_dst_ips = list()
+    all_active_port_rules = list()
+    all_inactive_port_rules = list()
 
     for num in range(1, 65535):
-        all_active_ports.append(Rule.port(num, True))
-        all_inactive_ports.append(Rule.port(num, False))
+        all_active_port_rules.append(Rule.port(num, True))
+        all_inactive_port_rules.append(Rule.port(num, False))
 
-    all_ports = all_active_ports + all_inactive_ports
-    all_ips = all_src_ips + all_dst_ips
+    all_ports = all_active_port_rules + all_inactive_port_rules
 
-    return all_ports + all_ips
+    all_src_ips, all_dst_ips = parse_all_ips()
+
+    for src_ip, dst_ip in zip(all_src_ips, all_dst_ips):
+        print 1
+
+    all_ip_rules = all_src_ips + all_dst_ips
+
+    return all_ports + all_ip_rules
+
+
+@timer
+def parse_all_ips():
+    decoder = EthDecoder()
+
+    all_src_ip = list()
+    all_dst_ip = list()
+
+    for pcap in [open_offline(AttackPacket), open_offline(NormalPacket)]:
+        while True:
+            _, data = pcap.next()
+            if _ is None:
+                break
+            else:
+                ip = decoder.decode(data).child()
+                try:
+                    all_src_ip.append(ip.get_ip_src())
+                except AttributeError:
+                    print 1
+                all_dst_ip.append(ip.get_ip_dst())
+    return all_src_ip, all_dst_ip
 
 
 total_attack = PacketFilter.count_packets(open_offline(AttackPacket)) * 1.0
