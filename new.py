@@ -14,12 +14,11 @@ class SetRule:
     def __init__(self, ip=None, ip_active=None, port=None, port_active=None):
         all_args = locals()
 
-        for key in all_args:
-            # Except self var
-            if key == 'self':
-                continue
-            # Make all args to self.*args
-            setattr(self, key, all_args[key])
+        # Init All local variable
+        self.ip = ip
+        self.ip_active = ip_active
+        self.port = port
+        self.port_active = port_active
 
 
 class Filter:
