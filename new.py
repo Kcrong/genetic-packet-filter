@@ -43,3 +43,11 @@ class Filter:
     @property
     def score(self):
         return self.__score
+
+
+def main():
+    rule_set = SetRule(ip='121.142.52.64', ip_active=False)
+
+
+if __name__ == '__main__':
+    main()
