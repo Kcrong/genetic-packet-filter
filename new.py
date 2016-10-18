@@ -3,7 +3,7 @@
 We Need:
     1. Packet Filtering --> Use set_filter() at Pcapy
     2. Filtering Genetic --> Use Random Set. Feature will be IP, Port, Content
-    3. Show Graph --> Use
+    3. Show Graph --> Use pyplot at matplotlib
 """
 from pcapy import open_offline
 
