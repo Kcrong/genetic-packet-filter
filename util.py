@@ -12,3 +12,22 @@ def counter(func):
     wrapper.__name__ = func.__name__
 
     return wrapper
+
+
+def timer(func):
+    """
+    Print Exec time
+    :return: void. Just print exec time by stdout
+    """
+    def wrapper(*args, **kwargs):
+        import time
+
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+
+        print "%s : %f" % (func.__name__, (end - start))
+
+        return result
+
+    return wrapper
