@@ -11,7 +11,6 @@ def handler(_, data):
     payload = proto.get_data_as_string()
 
     if payload is not None \
-            and payload != '' \
             and detect(payload)['encoding'] == 'ascii':
         pass
 
