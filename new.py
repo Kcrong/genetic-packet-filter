@@ -10,6 +10,10 @@ from pcapy import open_offline
 from util import timer, counter
 
 
+class InvalidRuleException(Exception):
+    pass
+
+
 class SetRule:
     def __init__(self, ip=None, ip_active=None, port=None, port_active=None):
         all_args = locals()
@@ -19,6 +23,32 @@ class SetRule:
         self.ip_active = ip_active
         self.port = port
         self.port_active = port_active
+
+    def __to_str(self):
+        # make ip rule to string
+        try:
+            assert self.ip_active != self.port_active
+        except AssertionError:
+            raise InvalidRuleException("Just one rule. one object")
+
+        if self.ip is not None:
+            # IP rule
+            string = "ip %s" % self.ip
+            if self.ip_active is False:
+                string = "not " + string
+        else:
+            # Port Rule
+            string = "port %d" % self.port
+            if self.port_active is False:
+                string = "not " + string
+
+        return string
+
+    def __repr__(self):
+        return self.__to_str()
+
+    def __str__(self):
+        return self.__to_str()
 
 
 class Filter:
@@ -46,7 +76,7 @@ class Filter:
 
 def main():
     rule_set = SetRule(ip='121.142.52.64', ip_active=False)
-
+    print rule_set
 
 if __name__ == '__main__':
     main()
