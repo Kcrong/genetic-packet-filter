@@ -63,7 +63,7 @@ class Filter:
         self.__score = None
 
     @timer
-    def run_by_rule(self, pcap):
+    def __run_by_rule(self, pcap):
         @counter
         def handler(_, __):
             # Parsing Packet Data
@@ -78,8 +78,9 @@ class Filter:
         return handler.called
 
     def calc_score(self):
-
-        return "Asdf"
+        detected_attack = self.__run_by_rule(ATTACKPCAP)
+        wrong_detected_normal = self.__run_by_rule(NORMALPCAP)
+        return int(detected_attack) - int(wrong_detected_normal)
 
     @property
     def score(self):
