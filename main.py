@@ -7,10 +7,12 @@ from impacket.ImpactDecoder import EthDecoder
 AttackPacket = 'test.pcap'
 NormalPacket = 'test.pcap'
 
+
 class Rule:
     """
     Change Python obj to String Rule
     """
+
     def __init__(self):
         pass
 
@@ -56,7 +58,7 @@ class PacketFilter:
     @staticmethod
     def count_packets(pcap):
         @counter
-        def handler(_hdr, _data):
+        def handler(_, __):
             pass
 
         pcap.loop(0, handler)
@@ -141,10 +143,8 @@ def main():
 
     p = PacketFilter(rules)
 
-
     print p
     print p.score
-
 
 
 if __name__ == '__main__':
