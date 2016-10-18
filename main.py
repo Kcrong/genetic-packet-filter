@@ -29,6 +29,9 @@ def timer(func):
 
 
 class Rule:
+    """
+    Change Python obj to String Rule
+    """
     def __init__(self):
         pass
 
@@ -158,8 +161,11 @@ def main():
     rules = init_rules()
 
     p = PacketFilter(rules)
+
+
     print p
     print p.score
+
 
 
 if __name__ == '__main__':
