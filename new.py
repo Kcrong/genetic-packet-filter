@@ -17,7 +17,7 @@ class Filter:
         self.__score = 0
 
     @timer
-    def run(self, pcap):
+    def run_by_rule(self, pcap):
         def handler(_, data):
             # Parsing Packet Data
             eth = EthDecoder().decode(data)
