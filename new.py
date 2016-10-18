@@ -6,9 +6,8 @@ We Need:
     3. Show Graph --> Use
 """
 from pcapy import open_offline
-from util import timer, counter
 
-from impacket.ImpactDecoder import EthDecoder
+from util import timer, counter
 
 
 class Filter:
