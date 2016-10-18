@@ -14,10 +14,16 @@ class InvalidRuleException(Exception):
     pass
 
 
-class SetRule:
-    def __init__(self, ip=None, ip_active=None, port=None, port_active=None):
-        all_args = locals()
+ATTACKPCAP = 'attacks.pcap'
+NORMALPCAP = 'normals.pcap'
 
+
+class SetRule:
+    """
+    필터링 규칙을 담는 객체 클래스
+    """
+
+    def __init__(self, ip=None, ip_active=None, port=None, port_active=None):
         # Init All local variable
         self.ip = ip
         self.ip_active = ip_active
@@ -54,7 +60,7 @@ class SetRule:
 class Filter:
     def __init__(self, rule):
         self.rules = rule
-        self.__score = 0
+        self.__score = None
 
     @timer
     def run_by_rule(self, pcap):
@@ -71,14 +77,22 @@ class Filter:
 
         return handler.called
 
+    def calc_score(self):
+
+        return "Asdf"
+
     @property
     def score(self):
-        return self.__score
+        if self.__score is None:
+            self.__score = self.calc_score()
+        else:
+            return self.__score
 
 
 def main():
     rule_set = SetRule(ip='121.142.52.64', ip_active=False)
     print rule_set
+
 
 if __name__ == '__main__':
     main()
