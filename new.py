@@ -6,7 +6,7 @@ We Need:
     3. Show Graph --> Use
 """
 from pcapy import open_offline
-from util import timer
+from util import timer, counter
 
 from impacket.ImpactDecoder import EthDecoder
 
@@ -18,16 +18,16 @@ class Filter:
 
     @timer
     def run_by_rule(self, pcap):
+        @counter
         def handler(_, data):
             # Parsing Packet Data
-            eth = EthDecoder().decode(data)
-            ip = eth.child()
-            tcp = ip.child()
-            payload = tcp.get_data_as_string()
+            pass
 
         opener = open_offline(pcap)
         opener.setfilter(self.rule)
         pcap.loop(0, handler)
+
+        return handler.called
 
     @property
     def score(self):
