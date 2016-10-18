@@ -80,7 +80,8 @@ class Filter:
         return handler.called
 
     def calc_score(self):
-        return self.__run_by_rule(ATTACKPCAP) - self.__run_by_rule(NORMALPCAP)
+        return int(self.__run_by_rule(ATTACKPCAP)) \
+               - int(self.__run_by_rule(NORMALPCAP))
 
     @property
     def score(self):
