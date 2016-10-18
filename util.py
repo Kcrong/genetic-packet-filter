@@ -11,4 +11,4 @@ def counter(func):
     wrapper.called = 0
     wrapper.__name__ = func.__name__
 
-    return wrapper()
+    return wrapper
