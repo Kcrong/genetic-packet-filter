@@ -34,7 +34,7 @@ class Filter:
     @timer
     def run_by_rule(self, pcap):
         @counter
-        def handler(_, data):
+        def handler(_, __):
             # Parsing Packet Data
             pass
 
