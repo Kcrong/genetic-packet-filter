@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 We Need:
     1. Packet Filtering --> Use set_filter() at Pcapy
@@ -6,6 +7,7 @@ We Need:
 """
 from pcapy import open_offline
 from util import timer
+
 from impacket.ImpactDecoder import EthDecoder
 
 
@@ -25,3 +27,5 @@ class Filter:
         opener = open_offline(pcap)
         opener.set_rule(self.rule)
         pcap.loop(0, handler)
+
+# 해집합
