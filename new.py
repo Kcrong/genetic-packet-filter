@@ -14,6 +14,7 @@ from impacket.ImpactDecoder import EthDecoder
 class Filter:
     def __init__(self, rule):
         self.rule = rule
+        self.__score = 0
 
     @timer
     def run(self, pcap):
@@ -28,3 +29,6 @@ class Filter:
         opener.setfilter(self.rule)
         pcap.loop(0, handler)
 
+    @property
+    def score(self):
+        return self.__score
