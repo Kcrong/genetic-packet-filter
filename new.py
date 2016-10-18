@@ -13,17 +13,13 @@ from util import timer, counter
 class SetRule:
     def __init__(self, ip=None, ip_active=None, port=None, port_active=None):
         all_args = locals()
-        for key in all_args:
 
+        for key in all_args:
             # Except self var
             if key == 'self':
                 continue
-
-            # Set Attr only not None
-            args_data = all_args[key]
-
-            if args_data is not None:
-                setattr(self, key, args_data)
+            # Make all args to self.*args
+            setattr(self, key, all_args[key])
 
 
 class Filter:
