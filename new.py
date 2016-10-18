@@ -25,7 +25,6 @@ class Filter:
             payload = tcp.get_data_as_string()
 
         opener = open_offline(pcap)
-        opener.set_rule(self.rule)
+        opener.setfilter(self.rule)
         pcap.loop(0, handler)
 
-# 해집합
