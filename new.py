@@ -67,7 +67,7 @@ class Filter:
     def __run_by_rule(self, pcap):
         # type: (pcap) -> string
         @counter
-        def handler(_, __):
+        def handler(*_):
             # Parsing Packet Data
             pass
 
