@@ -53,7 +53,7 @@ class SetRule:
 
 class Filter:
     def __init__(self, rule):
-        self.rule = rule
+        self.rules = rule
         self.__score = 0
 
     @timer
@@ -64,7 +64,9 @@ class Filter:
             pass
 
         opener = open_offline(pcap)
-        opener.setfilter(self.rule)
+
+        for rule in self.rules:
+            opener.setfilter(rule)
         pcap.loop(0, handler)
 
         return handler.called
