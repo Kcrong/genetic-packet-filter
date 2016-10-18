@@ -1,32 +1,11 @@
 #! /usr/bin/python2
 import time
 from pcapy import open_offline
+from util import counter, timer
 from impacket.ImpactDecoder import EthDecoder
 
 AttackPacket = 'test.pcap'
 NormalPacket = 'test.pcap'
-
-
-def counter(func):
-    def wrapper(*args, **kwargs):
-        wrapper.called += 1
-        return func(*args, **kwargs)
-
-    wrapper.called = 0
-    wrapper.__name__ = func.__name__
-    return wrapper
-
-
-def timer(func):
-    def wrapper(*args, **kwargs):
-        start = time.time()
-        result = func(*args, **kwargs)
-        end = time.time()
-        print "%s : %f" % (func.__name__, (end - start))
-        return result
-
-    return wrapper
-
 
 class Rule:
     """
