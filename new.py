@@ -1,4 +1,5 @@
 # coding=utf-8
+
 """
 We Need:
     1. Packet Filtering --> Use set_filter() at Pcapy
@@ -79,9 +80,7 @@ class Filter:
         return handler.called
 
     def calc_score(self):
-        detected_attack = self.__run_by_rule(ATTACKPCAP)
-        wrong_detected_normal = self.__run_by_rule(NORMALPCAP)
-        return int(detected_attack) - int(wrong_detected_normal)
+        return self.__run_by_rule(ATTACKPCAP) - self.__run_by_rule(NORMALPCAP)
 
     @property
     def score(self):
