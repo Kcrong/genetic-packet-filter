@@ -32,7 +32,7 @@ def parse_all_ips(packet_filename):
 def parse_all_ports(packet_filename):
     """
     :param packet_filename:
-    :return:
+    :return: tuple ([all source port list], [all destination port list])
     """
 
     all_src_ports = set()
