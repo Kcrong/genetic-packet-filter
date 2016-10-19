@@ -6,7 +6,16 @@ class ignore:
         self._exceptions = exceptions
 
     def __enter__(self):
+        """
+        When execute `with ignore(Exception)`
+        Override, And Do anything!
+        """
         pass
 
     def __exit__(self, exception_type, *_):
+        """
+        :param exception_type: Exception type that you catch
+        :param _: Unused param. (to me..)
+        :return: Boolean
+        """
         return exception_type is not None and issubclass(exception_type, self._exceptions)
