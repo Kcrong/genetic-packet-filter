@@ -4,7 +4,7 @@ import os
 class Logging:
     def __init__(self, filename=None):
         if filename is None:
-            filename = os.path.basename(__file__).split('.')[0] + '.log'
+            filename = self.__find_caller() + '.log'
 
         self.filename = filename
         self.file_handler = open(filename, 'a')
@@ -18,6 +18,12 @@ class Logging:
     def p_log(self, data):
         print data
         self.__write_data(data)
+
+    @staticmethod
+    def __find_caller():
+        import inspect
+        caller = inspect.getouterframes(inspect.currentframe(), 2)[2][1]
+        return os.path.basename(caller).split('.')[0]  # Remove type string
 
     def __del__(self):
         self.file_handler.close()
