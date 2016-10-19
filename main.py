@@ -25,7 +25,7 @@ ATTACKPCAP = 'attacks.pcap'
 NORMALPCAP = 'normals.pcap'
 
 
-class SetRule:
+class Rule:
     """
     필터링 규칙을 담는 클래스
     """
@@ -76,11 +76,11 @@ class SetRule:
         :param ruleset: 규칙 리스트
         :return: 리스트의 규칙을 조합한 새로운 규칙 (Random Base)
         """
-        return SetRule(
-            ip=SetRule.random_list(ruleset).ip,
-            ip_active=SetRule.random_list(ruleset).ip_active,
-            port=SetRule.random_list(ruleset).port,
-            port_active=SetRule.random_list(ruleset).port_active
+        return Rule(
+            ip=Rule.random_list(ruleset).ip,
+            ip_active=Rule.random_list(ruleset).ip_active,
+            port=Rule.random_list(ruleset).port,
+            port_active=Rule.random_list(ruleset).port_active
         )
 
 
@@ -118,7 +118,7 @@ class Filter:
 
 
 def main():
-    rule_set = SetRule(ip='121.142.52.64', ip_active=False)
+    rule_set = Rule(ip='121.142.52.64', ip_active=False)
     parse_all_ips('normals.pcap')
     print rule_set
 
