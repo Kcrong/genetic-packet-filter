@@ -94,7 +94,7 @@ class Filter:
         opener = open_offline(pcap)
 
         for rule in self.rules:
-            opener.setfilter(rule)
+            opener.setfilter(str(rule))
         pcap.loop(0, handler)
 
         return handler.called
