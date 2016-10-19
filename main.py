@@ -119,6 +119,7 @@ class Filter:
 
 def main():
     rule_set = SetRule(ip='121.142.52.64', ip_active=False)
+    parse_all_ips('normals.pcap')
     print rule_set
 
 
