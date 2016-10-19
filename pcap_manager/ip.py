@@ -25,3 +25,28 @@ def parse_all_ips(packet_filename):
             all_dst_ip.append(ip.get_ip_dst())
 
     return all_src_ip, all_dst_ip
+
+
+def parse_all_ports(packet_filename):
+    """
+    :param packet_filename:
+    :return:
+    """
+
+    all_src_ports = list()
+    all_dst_ports = list()
+
+    pcap_handler = open_offline(packet_filename)
+    decoder = EthDecoder()
+    while True:
+        _, data = pcap_handler.next()
+
+        if _ is None:
+            break
+
+        tcp = decoder.decode(data).child().child()
+        with ignore(AttributeError):
+            all_src_ports.append(tcp.get_th_sport())
+            all_dst_ports.append(tcp.get_th_dport())
+
+    return all_src_ports, all_dst_ports
