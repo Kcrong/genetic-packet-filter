@@ -1,4 +1,4 @@
-class Logger:
+class Logging:
     def __init__(self, filename):
         self.filename = filename
         self.filehandler = open(filename, 'a')
