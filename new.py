@@ -10,7 +10,7 @@ We Need:
 from pcapy import open_offline
 from random import randint
 
-from utility import timer, counter
+from utility.decorator import timer, counter
 from utility.logging import Logging
 
 
