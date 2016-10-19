@@ -39,10 +39,11 @@ def timer(func):
         start = time.time()
         result = func(*args, **kwargs)
         end = time.time()
-
-        print "%s : %f" % (func.__name__, (end - start))
+        wrapper.exec_time = (end - start)
 
         return result
+
+    wrapper.__name__ = func.__name__
 
     return wrapper
 
