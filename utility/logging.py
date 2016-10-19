@@ -23,9 +23,19 @@ class Logging:
         self.file_handler.write(data)
 
     def log(self, data):
+        """
+        Save log with data
+        :param data: data to write
+        :return: void
+        """
         self.__write_data(data)
 
     def p_log(self, data):
+        """
+        Save log with data, and print
+        :param data: data to write & print
+        :return: void
+        """
         print data
         self.__write_data(data)
 
