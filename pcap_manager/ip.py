@@ -1,6 +1,8 @@
 from pcapy import open_offline
-from utility.exception import ignore
+
 from impacket.ImpactDecoder import EthDecoder
+
+from utility.exception import ignore
 
 
 def parse_all_ips(packet_filename):
