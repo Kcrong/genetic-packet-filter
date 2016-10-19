@@ -7,7 +7,7 @@ We Need:
     3. Show Graph --> Use pyplot at matplotlib
 """
 from pcapy import open_offline
-
+from random import randint
 from util import timer, counter
 
 
@@ -56,6 +56,26 @@ class SetRule:
 
     def __str__(self):
         return self.__to_str()
+
+    @staticmethod
+    def random_list(*listset):
+        """
+        Get Ruleset, Return Random rule
+        """
+        return listset[randint(0, len(listset))]
+
+    @staticmethod
+    def new_rule(*ruleset):
+        """
+        :param ruleset: 규칙 리스트
+        :return: 리스트의 규칙을 조합한 새로운 규칙 (Random Base)
+        """
+        return SetRule(
+            ip=SetRule.random_list(ruleset).ip,
+            ip_active=SetRule.random_list(ruleset).ip_active,
+            port=SetRule.random_list(ruleset).port,
+            port_active=SetRule.random_list(ruleset).port_active
+        )
 
 
 class Filter:
