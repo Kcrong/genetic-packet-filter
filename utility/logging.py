@@ -1,5 +1,11 @@
+import os
+
+
 class Logging:
-    def __init__(self, filename):
+    def __init__(self, filename=None):
+        if filename is None:
+            filename = os.path.basename(__file__).split('.')[0] + '.log'
+
         self.filename = filename
         self.filehandler = open(filename, 'a')
 
