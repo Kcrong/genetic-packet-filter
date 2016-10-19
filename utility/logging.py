@@ -7,10 +7,10 @@ class Logging:
             filename = os.path.basename(__file__).split('.')[0] + '.log'
 
         self.filename = filename
-        self.filehandler = open(filename, 'a')
+        self.file_handler = open(filename, 'a')
 
     def __write_data(self, data):
-        self.filehandler.write(data)
+        self.file_handler.write(data)
 
     def log(self, data):
         self.__write_data(data)
@@ -20,4 +20,4 @@ class Logging:
         self.__write_data(data)
 
     def __del__(self):
-        self.filehandler.close()
+        self.file_handler.close()
