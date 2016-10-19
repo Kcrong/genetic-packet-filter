@@ -9,7 +9,8 @@ We Need:
 
 from pcapy import open_offline
 from random import randint
-from util import timer, counter
+
+from utility import timer, counter
 
 
 class InvalidRuleException(Exception):
