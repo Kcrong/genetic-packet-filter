@@ -2,6 +2,14 @@ def counter(func):
     """
     Decorator For count Func Calling
     :return: void. Just func.called
+    :example:
+
+        @counter
+        def foo():
+            ~some~code~
+
+        print foo.called
+
     """
 
     def wrapper(*args, **kwargs):
@@ -18,6 +26,11 @@ def timer(func):
     """
     Print Exec time
     :return: void. Just print exec time by stdout
+    :example:
+
+        @timer
+        def bar():
+
     """
 
     def wrapper(*args, **kwargs):
