@@ -30,6 +30,9 @@ def timer(func):
 
         @timer
         def bar():
+            ~some~code~
+
+        print bar.exec_time
 
     """
 
