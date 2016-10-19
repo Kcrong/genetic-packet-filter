@@ -19,6 +19,7 @@ def timer(func):
     Print Exec time
     :return: void. Just print exec time by stdout
     """
+
     def wrapper(*args, **kwargs):
         import time
 
@@ -31,3 +32,18 @@ def timer(func):
         return result
 
     return wrapper
+
+
+class Counter:
+    def __init__(self):
+        self.count = 0
+
+    def __repr__(self):
+        self.count += 1
+        return str(self.count)
+
+    def __str__(self):
+        return self.__repr__()
+
+    def reset(self):
+        self.__init__()
