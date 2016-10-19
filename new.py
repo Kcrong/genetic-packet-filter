@@ -102,14 +102,14 @@ class Filter:
 
         return handler.called
 
-    def calc_score(self):
+    def _calc_score(self):
         return int(self.__run_by_rule(ATTACKPCAP)) \
                - int(self.__run_by_rule(NORMALPCAP))
 
     @property
     def score(self):
         if self.__score is None:
-            self.__score = self.calc_score()
+            self.__score = self._calc_score()
         else:
             return self.__score
 
