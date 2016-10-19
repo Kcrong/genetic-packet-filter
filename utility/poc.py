@@ -1,4 +1,11 @@
 #! /usr/bin/python2
+# coding=utf-8
+"""
+유전 알고리즘을 이용한 패킷 필터링.
+개념 증명 (proof of concept) 코드 입니다.
+"""
+
+
 from pcapy import open_offline
 
 from impacket.ImpactDecoder import EthDecoder
