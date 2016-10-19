@@ -52,6 +52,20 @@ def timer(func):
 
 
 class Counter:
+    """
+    Just make object, and print.
+    :example:
+
+        cnt = Counter()
+        for i in range(0, 3):
+            print cnt
+
+        $ python main.py
+        1
+        2
+        3
+
+    """
     def __init__(self):
         self.count = 0
 
