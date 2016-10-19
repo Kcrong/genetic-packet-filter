@@ -10,7 +10,7 @@ from pcapy import open_offline
 
 from impacket.ImpactDecoder import EthDecoder
 
-from . import counter, timer
+from utility import counter, timer
 
 AttackPacket = 'test.pcap'
 NormalPacket = 'test.pcap'
