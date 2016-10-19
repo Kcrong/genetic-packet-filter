@@ -27,3 +27,6 @@ class Logging:
 
     def __del__(self):
         self.file_handler.close()
+
+    def __repr__(self):
+        return "<Logger %s>" % self.filename
