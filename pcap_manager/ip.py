@@ -16,7 +16,7 @@ def parse_all_ips(packet_filename):
     while True:
         _, data = pcap_handler.next()
 
-        if data is None:
+        if _ is None:
             break
 
         ip = decoder.decode(data).child()  # same as Ethernet.child()
