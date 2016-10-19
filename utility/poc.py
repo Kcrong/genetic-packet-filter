@@ -1,8 +1,9 @@
 #! /usr/bin/python2
-import time
 from pcapy import open_offline
-from . import counter, timer
+
 from impacket.ImpactDecoder import EthDecoder
+
+from . import counter, timer
 
 AttackPacket = 'test.pcap'
 NormalPacket = 'test.pcap'
