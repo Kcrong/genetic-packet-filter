@@ -21,7 +21,7 @@ NORMALPCAP = 'normals.pcap'
 
 class SetRule:
     """
-    필터링 규칙을 담는 객체 클래스
+    필터링 규칙을 담는 클래스
     """
 
     def __init__(self, ip=None, ip_active=None, port=None, port_active=None):
