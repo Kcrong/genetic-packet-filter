@@ -2,6 +2,16 @@ import os
 
 
 class Logging:
+    """
+    If you don't give 'filename' parameter,
+    filename will be caller's filename.
+    :example:
+        main.py
+            logger = Logging()
+
+        $ ls
+        main.py main.log
+    """
     def __init__(self, filename=None):
         if filename is None:
             filename = self.__find_caller() + '.log'
