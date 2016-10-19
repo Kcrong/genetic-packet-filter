@@ -8,8 +8,8 @@ def parse_all_ips(packet_filename):
     :param packet_filename: pcap filename to parsing
     :return: tuple ([all source ip list], [all destination ip list])
     """
-    all_src_ip = list()
-    all_dst_ip = list()
+    all_src_ip = set()
+    all_dst_ip = set()
 
     pcap_handler = open_offline(packet_filename)
     decoder = EthDecoder()
@@ -21,10 +21,10 @@ def parse_all_ips(packet_filename):
 
         ip = decoder.decode(data).child()  # same as Ethernet.child()
         with ignore(AttributeError):
-            all_src_ip.append(ip.get_ip_src())
-            all_dst_ip.append(ip.get_ip_dst())
+            all_src_ip.add(ip.get_ip_src())
+            all_dst_ip.add(ip.get_ip_dst())
 
-    return all_src_ip, all_dst_ip
+    return list(all_src_ip), list(all_dst_ip)
 
 
 def parse_all_ports(packet_filename):
@@ -33,8 +33,8 @@ def parse_all_ports(packet_filename):
     :return:
     """
 
-    all_src_ports = list()
-    all_dst_ports = list()
+    all_src_ports = set()
+    all_dst_ports = set()
 
     pcap_handler = open_offline(packet_filename)
     decoder = EthDecoder()
@@ -46,7 +46,7 @@ def parse_all_ports(packet_filename):
 
         tcp = decoder.decode(data).child().child()
         with ignore(AttributeError):
-            all_src_ports.append(tcp.get_th_sport())
-            all_dst_ports.append(tcp.get_th_dport())
+            all_src_ports.add(tcp.get_th_sport())
+            all_dst_ports.add(tcp.get_th_dport())
 
-    return all_src_ports, all_dst_ports
+    return list(all_src_ports), list(all_dst_ports)
