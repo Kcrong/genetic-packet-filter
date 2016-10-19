@@ -11,12 +11,13 @@ from pcapy import open_offline
 from random import randint
 
 from utility import timer, counter
+from utility.logging import Logging
 
 
 class InvalidRuleException(Exception):
     pass
 
-
+logger = Logging()
 ATTACKPCAP = 'attacks.pcap'
 NORMALPCAP = 'normals.pcap'
 
