@@ -1,5 +1,5 @@
 from pcapy import open_offline
-from utility.coverage import Counter
+from utility.exception import ignore
 from impacket.ImpactDecoder import EthDecoder
 
 
@@ -20,8 +20,8 @@ def parse_all_ips(packet_filename):
             break
 
         ip = decoder.decode(data).child()  # same as Ethernet.child()
-
-        all_src_ip.append(ip.get_ip_src())
-        all_dst_ip.append(ip.get_ip_dst())
+        with ignore(AttributeError):
+            all_src_ip.append(ip.get_ip_src())
+            all_dst_ip.append(ip.get_ip_dst())
 
     return all_src_ip, all_dst_ip
