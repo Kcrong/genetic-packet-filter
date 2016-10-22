@@ -93,6 +93,20 @@ class Rule:
             dst_port_active=rand_choice(ruleset).port_active
         )
 
+    @staticmethod
+    def init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port):
+        t_or_f = [True, False]
+        return Rule(
+            src_ip=rand_choice(all_src_ip),
+            src_ip_active=rand_choice(t_or_f),
+            src_port=rand_choice(all_src_port),
+            src_port_active=rand_choice(t_or_f),
+            dst_ip=rand_choice(all_dst_ip),
+            dst_ip_active=rand_choice(t_or_f),
+            dst_port=rand_choice(all_dst_port),
+            dst_port_active=rand_choice(t_or_f)
+        )
+
 
 class Filter:
     def __init__(self, rule):
@@ -133,6 +147,8 @@ class Filter:
 def main():
     rule_set = Rule(src_ip='121.142.52.64', src_ip_active=False)
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port_mac('pjhs.pcap')
+
+    random_rule = Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port)
     print rule_set
 
 
