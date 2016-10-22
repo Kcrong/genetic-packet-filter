@@ -28,13 +28,13 @@ class Rule:
 
     def __init__(self,
                  src_ip=None,
-                 src_ip_active=None,
+                 src_ip_active=True,
                  dst_ip=None,
-                 dst_ip_active=None,
+                 dst_ip_active=True,
                  src_port=None,
-                 src_port_active=None,
+                 src_port_active=True,
                  dst_port=None,
-                 dst_port_active=None
+                 dst_port_active=True
                  ):
         self.src_ip = src_ip
         self.src_ip_active = src_ip_active
