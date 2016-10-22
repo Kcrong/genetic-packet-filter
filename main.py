@@ -11,11 +11,9 @@ from pcapy import open_offline
 from random import choice as rand_choice
 from random import random
 
-from utility.coverage import timer, counter
-from utility.exception import InvalidRuleException
-from utility.logging import Logging
-
 from pcap_manager.total import parse_all_ip_port_mac
+from utility.coverage import timer, counter
+from utility.logging import Logging
 
 logger = Logging()
 
