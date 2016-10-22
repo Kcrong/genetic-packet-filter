@@ -47,21 +47,26 @@ class Rule:
 
     def __to_str(self):
         # make ip rule to string
-        try:
-            assert self.ip_active != self.port_active
-        except AssertionError:
-            raise InvalidRuleException("Just one rule. one object")
+        string = ""
+        if self.src_ip is not None:
+            if self.src_ip_active is False:
+                string += "not "
+            string += "ip src %s " % self.src_ip
 
-        if self.ip is not None:
-            # IP rule
-            string = "ip %s" % self.ip
-            if self.ip_active is False:
-                string = "not " + string
-        else:
-            # Port Rule
-            string = "port %d" % self.port
-            if self.port_active is False:
-                string = "not " + string
+        if self.dst_ip is not None:
+            if self.dst_ip_active is False:
+                string += "not "
+            string += "ip dst %s " % self.dst_ip
+
+        if self.src_port is not None:
+            if self.src_port_active is False:
+                string += "not "
+            string += "port src %d " % self.src_port
+
+        if self.dst_port is not None:
+            if self.dst_port_active is False:
+                string += "not "
+            string += "port dst %d " % self.dst_port
 
         return string
 
