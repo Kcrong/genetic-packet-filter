@@ -82,7 +82,10 @@ class Rule:
 
 class Filter:
     def __init__(self, rule):
-        self.rules = rule
+        if type(rule) != list:
+            self.rules = [rule]
+        else:
+            self.rules = rule
         self.__score = None
 
     @timer
