@@ -77,11 +77,11 @@ class Rule:
         return self.__to_str()
 
     @staticmethod
-    def random_list(*listset):
+    def random_list(*data_set):
         """
         Get Ruleset, Return Random rule
         """
-        return listset[randint(0, len(listset))]
+        return data_set[randint(0, len(data_set))]
 
     @staticmethod
     def new_rule(*ruleset):
