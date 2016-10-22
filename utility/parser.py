@@ -10,8 +10,6 @@ class PacketParser:
         self.header_len = None
         self.ttl = None
         self.ip_protocol = None
-        self.src_ip = None
-        self.dst_ip = None
         self.iph_length = None
 
         self.packet = packet
