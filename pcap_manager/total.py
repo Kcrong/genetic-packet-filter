@@ -5,7 +5,12 @@ from utility.exception import ignore
 from utility.data_manage import return2type
 
 
+def remove_none(data):
+    return [_ for _ in data if _ is not None]
+
+
 @return2type(list)
+@return2type(remove_none)
 def parse_all_ip_port_mac(packet_filename):
     all_src_ip = set()
     all_dst_ip = set()
