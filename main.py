@@ -16,6 +16,8 @@ from utility.coverage import timer, counter
 from utility.logging import Logging
 
 logger = Logging()
+ATTACKPCAP = 'attacks.pcap'
+NORMALPCAP = 'normals.pcap'
 
 
 class Rule:
