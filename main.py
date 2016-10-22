@@ -11,14 +11,10 @@ from pcapy import open_offline
 from random import randint
 
 from utility.coverage import timer, counter
+from utility.exception import InvalidRuleException
 from utility.logging import Logging
 
 from pcap_manager.ip import parse_all_ips, parse_all_ports
-
-
-class InvalidRuleException(Exception):
-    pass
-
 
 logger = Logging()
 ATTACKPCAP = 'attacks.pcap'

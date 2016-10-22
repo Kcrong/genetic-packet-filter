@@ -19,3 +19,7 @@ class ignore:
         :return: Boolean
         """
         return exception_type is not None and issubclass(exception_type, self._exceptions)
+
+
+class InvalidRuleException(Exception):
+    pass
