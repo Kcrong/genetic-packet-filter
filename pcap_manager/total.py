@@ -16,8 +16,6 @@ def parse_all_ip_port_mac(packet_filename):
     all_dst_ip = set()
     all_src_port = set()
     all_dst_port = set()
-    all_src_mac = set()
-    all_dst_mac = set()
 
     pcap_handler = open_offline(packet_filename)
 
@@ -38,9 +36,5 @@ def parse_all_ip_port_mac(packet_filename):
             all_src_port.add(p.src_port)
         with ignore(AttributeError):
             all_dst_port.add(p.dst_port)
-        with ignore(AttributeError):
-            all_src_mac.add(p.src_mac)
-        with ignore(AttributeError):
-            all_dst_mac.add(p.dst_mac)
 
-    return all_src_ip, all_dst_ip, all_src_port, all_dst_port, all_src_mac, all_dst_mac
+    return all_src_ip, all_dst_ip, all_src_port, all_dst_port
