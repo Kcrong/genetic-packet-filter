@@ -18,8 +18,6 @@ from utility.logging import Logging
 from pcap_manager.total import parse_all_ip_port_mac
 
 logger = Logging()
-ATTACKPCAP = 'attacks.pcap'
-NORMALPCAP = 'normals.pcap'
 
 
 class Rule:
