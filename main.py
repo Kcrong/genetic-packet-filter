@@ -14,7 +14,7 @@ from utility.coverage import timer, counter
 from utility.exception import InvalidRuleException
 from utility.logging import Logging
 
-from pcap_manager.ip import parse_all_ips, parse_all_ports
+from pcap_manager.total import parse_all_ip_port_mac
 
 logger = Logging()
 ATTACKPCAP = 'attacks.pcap'
@@ -118,8 +118,7 @@ class Filter:
 
 def main():
     rule_set = Rule(ip='121.142.52.64', ip_active=False)
-    all_src_ip, all_dst_ip = parse_all_ips('pjhs.pcap')
-    all_src_ports, all_dst_ports = parse_all_ports('pjhs.pcap')
+    all_src_ip, all_dst_ip, all_src_port, all_dst_port, all_src_mac, all_dst_mac = parse_all_ip_port_mac('pjhs.pcap')
     print rule_set
 
 
