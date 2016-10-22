@@ -8,7 +8,7 @@ We Need:
 """
 
 from pcapy import open_offline
-from random import randint
+from random import choice as rand_choice
 
 from utility.coverage import timer, counter
 from utility.exception import InvalidRuleException
@@ -77,27 +77,20 @@ class Rule:
         return self.__to_str()
 
     @staticmethod
-    def random_list(*data_set):
-        """
-        Get Ruleset, Return Random rule
-        """
-        return data_set[randint(0, len(data_set))]
-
-    @staticmethod
     def new_rule(*ruleset):
         """
         :param ruleset: 규칙 리스트
         :return: 리스트의 규칙을 조합한 새로운 규칙 (Random Base)
         """
         return Rule(
-            src_ip=Rule.random_list(ruleset).ip,
-            src_ip_active=Rule.random_list(ruleset).ip_active,
-            src_port=Rule.random_list(ruleset).port,
-            src_port_active=Rule.random_list(ruleset).port_active,
-            dst_ip=Rule.random_list(ruleset).ip,
-            dst_ip_active=Rule.random_list(ruleset).ip_active,
-            dst_port=Rule.random_list(ruleset).port,
-            dst_port_active=Rule.random_list(ruleset).port_active
+            src_ip=rand_choice(ruleset).ip,
+            src_ip_active=rand_choice(ruleset).ip_active,
+            src_port=rand_choice(ruleset).port,
+            src_port_active=rand_choice(ruleset).port_active,
+            dst_ip=rand_choice(ruleset).ip,
+            dst_ip_active=rand_choice(ruleset).ip_active,
+            dst_port=rand_choice(ruleset).port,
+            dst_port_active=rand_choice(ruleset).port_active
         )
 
 
