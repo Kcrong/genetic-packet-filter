@@ -9,6 +9,7 @@ We Need:
 
 from pcapy import open_offline
 from random import choice as rand_choice
+from random import random
 
 from utility.coverage import timer, counter
 from utility.exception import InvalidRuleException
@@ -25,6 +26,8 @@ class Rule:
     """
     필터링 규칙을 담는 클래스
     """
+    t_or_f = [True, False]
+    filter_attr = [False, True]
 
     def __init__(self,
                  src_ip=None,
@@ -95,17 +98,26 @@ class Rule:
 
     @staticmethod
     def init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port):
-        t_or_f = [True, False]
-        return Rule(
-            src_ip=rand_choice(all_src_ip),
-            src_ip_active=rand_choice(t_or_f),
-            src_port=rand_choice(all_src_port),
-            src_port_active=rand_choice(t_or_f),
-            dst_ip=rand_choice(all_dst_ip),
-            dst_ip_active=rand_choice(t_or_f),
-            dst_port=rand_choice(all_dst_port),
-            dst_port_active=rand_choice(t_or_f)
+
+        param_data = dict(
+            src_ip=None,
+            src_port=None,
+            dst_ip=None,
+            dst_port=None,
+            src_ip_active=None,
+            src_port_active=None,
+            dst_ip_active=None,
+            dst_port_active=None
         )
+        param_data_keys = ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_ip_active', 'src_port_active',
+                           'dst_ip_active', 'dst_port_active']
+
+        for idx, key, data in zip(range(4), param_data_keys, [all_src_ip, all_src_port, all_dst_ip, all_dst_port]):
+            if random() > 0.5:
+                param_data[key] = rand_choice(data)
+                param_data[param_data_keys[idx + 4]] = rand_choice(Rule.t_or_f)
+
+        return Rule(**param_data)
 
 
 class Filter:
