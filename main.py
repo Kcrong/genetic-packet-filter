@@ -26,12 +26,24 @@ class Rule:
     필터링 규칙을 담는 클래스
     """
 
-    def __init__(self, ip=None, ip_active=None, port=None, port_active=None):
-        # Init All local variable
-        self.ip = ip
-        self.ip_active = ip_active
-        self.port = port
-        self.port_active = port_active
+    def __init__(self,
+                 src_ip=None,
+                 src_ip_active=None,
+                 dst_ip=None,
+                 dst_ip_active=None,
+                 src_port=None,
+                 src_port_active=None,
+                 dst_port=None,
+                 dst_port_active=None
+                 ):
+        self.src_ip = src_ip
+        self.src_ip_active = src_ip_active
+        self.dst_ip = dst_ip
+        self.dst_ip_active = dst_ip_active
+        self.src_port = src_port
+        self.src_port_active = src_port_active
+        self.dst_port = dst_port
+        self.dst_port_active = dst_port_active
 
     def __to_str(self):
         # make ip rule to string
