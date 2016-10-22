@@ -154,6 +154,16 @@ class Filter:
             return self.__score
 
 
+class DNA:
+    def __init__(self, ruleset):
+        self.ruleset = ruleset
+        self.filter = Filter(self.ruleset)
+
+    @property
+    def fitness(self):
+        return self.filter.score
+
+
 def main():
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port_mac('pjhs.pcap')
 
