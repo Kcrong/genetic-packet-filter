@@ -28,10 +28,14 @@ class PacketParser:
 
         self.parse_ip()
 
-        self.src_port, self.dst_port, self.data = {
-            6: self.parse_tcp,
-            17: self.parse_udp
-        }[self.ip_protocol]()
+        try:
+            self.src_port, self.dst_port, self.data = {
+                6: self.parse_tcp,
+                17: self.parse_udp
+            }[self.ip_protocol]()
+
+        except KeyError:
+            return
 
     def parse_tcp(self):
         t = self.iph_length + self.eth_length
