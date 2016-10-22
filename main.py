@@ -90,10 +90,14 @@ class Rule:
         :return: 리스트의 규칙을 조합한 새로운 규칙 (Random Base)
         """
         return Rule(
-            ip=Rule.random_list(ruleset).ip,
-            ip_active=Rule.random_list(ruleset).ip_active,
-            port=Rule.random_list(ruleset).port,
-            port_active=Rule.random_list(ruleset).port_active
+            src_ip=Rule.random_list(ruleset).ip,
+            src_ip_active=Rule.random_list(ruleset).ip_active,
+            src_port=Rule.random_list(ruleset).port,
+            src_port_active=Rule.random_list(ruleset).port_active,
+            dst_ip=Rule.random_list(ruleset).ip,
+            dst_ip_active=Rule.random_list(ruleset).ip_active,
+            dst_port=Rule.random_list(ruleset).port,
+            dst_port_active=Rule.random_list(ruleset).port_active
         )
 
 
