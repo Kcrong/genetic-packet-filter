@@ -17,28 +17,28 @@ class PacketParser:
         self.packet = packet
 
         # Parsing Pre-setting
-        self.eth_length = 14
-        self.icmph_length = 4
-        self.udph_length = 8
+        self.__eth_length = 14
+        self.__icmph_length = 4
+        self.__udph_length = 8
 
         eth_protocol, self.src_mac, self.dst_mac = self.parse_ethernet()
 
         if eth_protocol != 8:
             return
 
-        self.parse_ip()
+        ip_protocol = self.parse_ip()
 
         try:
             self.src_port, self.dst_port, self.data = {
                 6: self.parse_tcp,
                 17: self.parse_udp
-            }[self.ip_protocol]()
+            }[ip_protocol]()
 
         except KeyError:
             return
 
     def parse_tcp(self):
-        t = self.iph_length + self.eth_length
+        t = self.iph_length + self.__eth_length
         tcph = unpack('!HHLLBBHHH', self.packet[t:t + 20])
 
         src_port = tcph[0]
@@ -48,14 +48,14 @@ class PacketParser:
         doff_reserved = tcph[4]
         tcph_length = doff_reserved >> 4
 
-        h_size = self.eth_length + self.iph_length + tcph_length * 4
+        h_size = self.__eth_length + self.iph_length + tcph_length * 4
 
         data = self.packet[h_size:]
 
         return src_port, dst_port, data
 
     def parse_icmp(self):
-        u = self.iph_length + self.eth_length
+        u = self.iph_length + self.__eth_length
         icmp_header = self.packet[u:u + 4]
 
         icmph = unpack('!BBH', icmp_header)
@@ -64,13 +64,13 @@ class PacketParser:
         code = icmph[1]
         checksum = icmph[2]
 
-        h_size = self.eth_length + self.iph_length + self.icmph_length
+        h_size = self.__eth_length + self.iph_length + self.__icmph_length
         data = self.packet[h_size:]
 
         return icmp_type, code, checksum, data
 
     def parse_udp(self):
-        u = self.iph_length + self.eth_length
+        u = self.iph_length + self.__eth_length
         udp_header = self.packet[u:u + 8]
         udph = unpack('!HHHH', udp_header)
 
@@ -79,14 +79,14 @@ class PacketParser:
         # length = udph[2]
         # checksum = udph[3]
 
-        h_size = self.eth_length + self.iph_length + self.udph_length
+        h_size = self.__eth_length + self.iph_length + self.__udph_length
 
         data = self.packet[h_size:]
 
         return src_port, dst_port, data
 
     def parse_ip(self):
-        iph = unpack('!BBHHHBBH4s4s', self.packet[self.eth_length:self.eth_length + 20])
+        iph = unpack('!BBHHHBBH4s4s', self.packet[self.__eth_length:self.__eth_length + 20])
         version_ihl = iph[0]
         version = version_ihl >> 4
         ihl = version_ihl & 0xF
@@ -98,10 +98,17 @@ class PacketParser:
         s_addr = socket.inet_ntoa(iph[8])
         d_addr = socket.inet_ntoa(iph[9])
 
-        return version, ihl, ttl, protocol, s_addr, d_addr, iph_length
+        self.ip_version = version
+        self.header_len = ihl
+        self.ttl = ttl
+        self.src_ip = s_addr
+        self.dst_ip = d_addr
+        self.iph_length = iph_length
+
+        return protocol
 
     def parse_ethernet(self):
-        eth_header = self.packet[:self.eth_length]
+        eth_header = self.packet[:self.__eth_length]
         eth = unpack('!6s6sH', eth_header)
         protocol = socket.ntohs(eth[2])
         dst_mac = self.pretty_mac(self.packet[0:6])
