@@ -28,5 +28,6 @@ def handler(_, data):
 pcap = open_offline('../test.pcap')
 # https://linux.die.net/man/7/pcap-filter
 pcap.setfilter('not arp')
+pcap.setfilter('ip src 123.123.123.123 and ip dst 123.123.123.123 and dst port 80 and src port 123')
 
 pcap.loop(0, handler)
