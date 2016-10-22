@@ -138,7 +138,7 @@ class Filter:
 
 
 def main():
-    rule_set = Rule(ip='121.142.52.64', ip_active=False)
+    rule_set = Rule(src_ip='121.142.52.64', src_ip_active=False)
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port_mac('pjhs.pcap')
     print rule_set
 
