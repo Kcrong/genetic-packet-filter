@@ -119,8 +119,8 @@ class Filter:
 
 def main():
     rule_set = Rule(ip='121.142.52.64', ip_active=False)
-    all_src_ip, all_dst_ip = parse_all_ips('attacks.pcap')
-    all_src_ports, all_dst_ports = parse_all_ports('normals.pcap')
+    all_src_ip, all_dst_ip = parse_all_ips('pjhs.pcap')
+    all_src_ports, all_dst_ports = parse_all_ports('pjhs.pcap')
     print rule_set
 
 
