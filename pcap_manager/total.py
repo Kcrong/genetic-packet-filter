@@ -2,8 +2,10 @@ from pcapy import open_offline
 
 from utility.parser import PacketParser
 from utility.exception import ignore
+from utility.data_manage import return2type
 
 
+@return2type(list)
 def parse_all_ip_port_mac(packet_filename):
     all_src_ip = set()
     all_dst_ip = set()
