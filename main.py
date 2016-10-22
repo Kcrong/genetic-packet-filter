@@ -157,11 +157,10 @@ class Filter:
 
 
 def main():
-    rule_set = Rule(src_ip='121.142.52.64', src_ip_active=False)
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port_mac('pjhs.pcap')
 
-    random_rule = Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port)
-    print rule_set
+    generation = [Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port) for _ in range(100)]
+    print generation
 
 
 if __name__ == '__main__':
