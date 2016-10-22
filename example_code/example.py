@@ -8,7 +8,10 @@ def handler(_, data):
     eth = EthDecoder().decode(data)
     ip = eth.child()
     proto = ip.child()
-    payload = proto.get_data_as_string()
+    try:
+        payload = proto.get_data_as_string()
+    except AttributeError:
+        return
 
     if payload is not None \
             and detect(payload)['encoding'] == 'ascii':
@@ -22,7 +25,7 @@ def handler(_, data):
     print payload
 
 
-pcap = open_offline('test.pcap')
+pcap = open_offline('../test.pcap')
 # https://linux.die.net/man/7/pcap-filter
 pcap.setfilter('not arp')
 
