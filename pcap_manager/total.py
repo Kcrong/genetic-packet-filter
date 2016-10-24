@@ -17,7 +17,7 @@ def parse_all_ip_port(packet_files):
     all_src_port = set()
     all_dst_port = set()
     if is_iterable(packet_files) is False:
-        packet_files = list(packet_files)
+        packet_files = [packet_files]
 
     for packet_file in packet_files:
 
