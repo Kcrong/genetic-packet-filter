@@ -16,8 +16,24 @@ from utility.coverage import timer, counter
 from utility.logging import Logging
 
 logger = Logging()
+
+
+def count_pcap_packet(filename):
+    pcap = open_offline(filename)
+
+    @counter
+    def handler(*_):
+        pass
+
+    pcap.loop(0, handler)
+
+    return handler.called
+
+
 ATTACKPCAP = 'attacks.pcap'
+ATTACKPCAP_LEN = count_pcap_packet(ATTACKPCAP)
 NORMALPCAP = 'normals.pcap'
+NORMALPCAP_LEN = count_pcap_packet(NORMALPCAP)
 
 
 class Rule:
