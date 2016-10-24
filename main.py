@@ -171,6 +171,9 @@ class DNA:
     def fitness(self):
         return self.filter.score
 
+    def __repr__(self):
+        return "<DNA %d fitness>" % self.fitness
+
 
 def main():
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port('output.pcap')
