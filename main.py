@@ -149,7 +149,13 @@ class Rule:
             if repr(rule) == '':
                 continue
             else:
-                return rule
+                pass
+
+            for active_key in ['src_ip_active', 'src_port_active', 'dst_ip_active', 'dst_port_active']:
+                if param_data[active_key] is True:
+                    return rule
+            else:
+                continue
 
 
 class Filter:
