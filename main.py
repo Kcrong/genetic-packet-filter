@@ -138,7 +138,7 @@ class Filter:
 
         for rule in self.rules:
             opener.setfilter(str(rule))
-        pcap.loop(0, handler)
+        opener.loop(0, handler)
 
         return handler.called
 
