@@ -21,8 +21,6 @@ class PacketParser:
 
         eth_protocol, self.src_mac, self.dst_mac = self.parse_ethernet()
 
-        if eth_protocol != 8:
-            return
 
         ip_protocol = self.parse_ip()
 
