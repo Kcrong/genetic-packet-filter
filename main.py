@@ -212,6 +212,19 @@ class DNA:
         return "<DNA %d fitness>" % self.fitness
 
 
+class Generation:
+    count = 0
+
+    def __init__(self, dna_list):
+        Generation.count += 1
+
+        self.level = Generation.count
+        self.dna_list = dna_list
+
+    def __repr__(self):
+        return "<Generation %d>" % self.level
+
+
 def main():
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port('output.pcap')
 
