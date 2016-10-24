@@ -135,7 +135,7 @@ class Filter:
             self.rules = [rule]
         else:
             self.rules = rule
-        self.__score = None
+        self.__score = self._calc_score()
 
     @timer
     def __run_by_rule(self, pcap):
@@ -159,10 +159,7 @@ class Filter:
 
     @property
     def score(self):
-        if self.__score is None:
-            self.__score = self._calc_score()
-        else:
-            return self.__score
+        return self.__score
 
 
 class DNA:
