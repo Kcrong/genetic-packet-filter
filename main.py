@@ -131,10 +131,7 @@ class Rule:
 
 class Filter:
     def __init__(self, rule):
-        if type(rule) != list:
-            self.rules = [rule]
-        else:
-            self.rules = rule
+        self.rule = rule
         self.__score = self._calc_score()
 
     @timer
@@ -147,8 +144,7 @@ class Filter:
 
         opener = open_offline(pcap)
 
-        for rule in self.rules:
-            opener.setfilter(str(rule))
+        opener.setfilter(str(self.rule))
         opener.loop(0, handler)
 
         return handler.called
