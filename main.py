@@ -140,7 +140,7 @@ class Filter:
         @counter
         def handler(*_):
             # Parsing Packet Data
-            pass
+            return
 
         opener = open_offline(pcap)
 
