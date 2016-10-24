@@ -48,28 +48,39 @@ class Rule:
 
     def __to_str(self):
         # make ip rule to string
-        string = ""
+        rule_data = list()
+
         if self.src_ip is not None:
+            rule = "ip src %s " % self.src_ip
+
             if self.src_ip_active is False:
-                string += "not "
-            string += "ip src %s " % self.src_ip
+                rule = "not " + rule
+
+            rule_data.append(rule)
 
         if self.dst_ip is not None:
+            rule = "ip dst %s" % self.dst_ip
+
             if self.dst_ip_active is False:
-                string += "not "
-            string += "ip dst %s " % self.dst_ip
+                rule = "not " + rule
+
+            rule_data.append(rule)
 
         if self.src_port is not None:
+            add_format = "src port %d"
             if self.src_port_active is False:
-                string += "not "
-            string += "port src %d " % self.src_port
+                add_format = "not " + add_format
+
+            rule_data.append(add_format % self.src_port)
 
         if self.dst_port is not None:
+            add_format = "dst port %d"
             if self.dst_port_active is False:
-                string += "not "
-            string += "port dst %d " % self.dst_port
+                add_format = "not " + add_format
 
-        return string
+            rule_data.append(add_format % self.dst_port)
+
+        return " and ".join(rule_data)
 
     def __repr__(self):
         return self.__to_str()
