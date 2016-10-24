@@ -21,7 +21,6 @@ class PacketParser:
 
         eth_protocol, self.src_mac, self.dst_mac = self.parse_ethernet()
 
-
         ip_protocol = self.parse_ip()
 
         try:
