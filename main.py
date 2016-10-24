@@ -164,8 +164,8 @@ class Filter:
 
 class DNA:
     def __init__(self, ruleset):
-        self.ruleset = ruleset
-        self.filter = Filter(self.ruleset)
+        self.rule = ruleset
+        self.filter = Filter(self.rule)
 
     @property
     def fitness(self):
