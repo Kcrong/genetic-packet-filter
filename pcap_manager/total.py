@@ -11,7 +11,7 @@ def remove_none(data):
 
 @return2type(list)
 @return2type(remove_none)
-def parse_all_ip_port_mac(packet_files):
+def parse_all_ip_port(packet_files):
     all_src_ip = set()
     all_dst_ip = set()
     all_src_port = set()
