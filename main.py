@@ -131,6 +131,8 @@ class Rule:
 
 class Filter:
     def __init__(self, rule):
+        self.detected = None  # 탐지한 공격패킷
+        self.wrong = None  # 오탐한 일반패킷
         self.rule = rule
         self.__score = self._calc_score()
 
@@ -150,8 +152,10 @@ class Filter:
         return handler.called
 
     def _calc_score(self):
-        return int(self.__run_by_rule(ATTACKPCAP)) \
-               - int(self.__run_by_rule(NORMALPCAP))
+        self.detected = int(self.__run_by_rule(ATTACKPCAP))
+        self.wrong = int(self.__run_by_rule(NORMALPCAP))
+        
+        return self.detected - self.wrong
 
     @property
     def score(self):
