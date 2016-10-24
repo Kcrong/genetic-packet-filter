@@ -137,12 +137,19 @@ class Rule:
         param_data_keys = ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_ip_active', 'src_port_active',
                            'dst_ip_active', 'dst_port_active']
 
-        for idx, key, data in zip(range(4), param_data_keys, [all_src_ip, all_src_port, all_dst_ip, all_dst_port]):
-            if random() > 0.5:
-                param_data[key] = rand_choice(data)
-                param_data[param_data_keys[idx + 4]] = rand_choice(Rule.t_or_f)
+        while True:
 
-        return Rule(**param_data)
+            for idx, key, data in zip(range(4), param_data_keys, [all_src_ip, all_src_port, all_dst_ip, all_dst_port]):
+                if random() > 0.5:
+                    param_data[key] = rand_choice(data)
+                    param_data[param_data_keys[idx + 4]] = rand_choice(Rule.t_or_f)
+
+            rule = Rule(**param_data)
+
+            if repr(rule) == '':
+                continue
+            else:
+                return rule
 
 
 class Filter:
