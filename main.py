@@ -219,7 +219,7 @@ class Generation:
         Generation.count += 1
 
         self.level = Generation.count
-        self.dna_list = dna_list
+        self.dna_list = sorted(dna_list, key=lambda x: x.fitness, reverse=True)
 
     def __repr__(self):
         return "<Generation %d>" % self.level
