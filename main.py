@@ -228,6 +228,20 @@ class Generation:
     def __repr__(self):
         return "<Generation %d>" % self.level
 
+    def __select_parent(self):
+        """
+        부모가 될 DNA 를 선출하는 함수.
+        선출될 확률은 해당 DNA 의 fitness 값에 비례함.
+        :return: DNA object
+        """
+
+        while True:  # 부모 DNA 가 선출될 때 까지
+            for dna in self.dna_list:
+                if dna.fitness > randint(self.min_fitness, self.max_fitness):
+                    return dna
+            else:
+                continue
+
 
 def main():
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port('output.pcap')
