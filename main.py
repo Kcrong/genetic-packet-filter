@@ -299,11 +299,16 @@ class Generation:
 
 
 def main():
-    all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port('output.pcap')
+    # Init Rule data
+    all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port(['attacks_telnet.pcap'])
+    rule_set = [Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port) for _ in range(100)]
+    first_dna_list = sorted([DNA(rule) for rule in rule_set], key=lambda x: x.fitness, reverse=True)
 
-    generation = [Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port) for _ in range(100)]
-    print generation
+    g = Generation(first_dna_list)
 
+    for _ in range(500):
+        print "Best: %s -> %d\n" % (rand_choice(g.dna_list).rule, g.best_dna.fitness)
+        g = g.next()
 
 if __name__ == '__main__':
     main()
