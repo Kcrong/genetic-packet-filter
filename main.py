@@ -255,7 +255,9 @@ class Generation:
 
         parents = list()
 
-        while True:  # 부모 DNA 가 모두 선출될 때 까지
+        while len(parents) <= 2:  # 부모 DNA 가 모두 선출될 때 까지
+            if random() < MUTATION_PERCENTAGE/100.0:  # 돌연변이~
+                parents.append(rand_choice(self.dna_list))
             for dna in self.dna_list:  # 자신의 dna_list 중에서
                 if dna.fitness >= randint(self.worst_dna.fitness, self.best_dna.fitness) \
                         and (len(parents) == 0 or parents[0] != dna):  # 적합도에 비례하게 & 기존에 선출된 DNA 를 제외하고
