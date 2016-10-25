@@ -1,8 +1,8 @@
 from pcapy import open_offline
 
-from utility.parser import PacketParser
-from utility.exception import ignore
+from pcap_manager.parser import PacketParser
 from utility.data_manage import return2type, is_iterable
+from utility.exception import ignore
 
 
 def remove_none(data):
