@@ -104,6 +104,14 @@ class Rule:
     def __str__(self):
         return self.__to_str()
 
+    def __add__(self, other):
+        new_rule = Rule()
+
+        for key in self.__dict__.keys():
+            setattr(new_rule, key, rand_choice([getattr(self, key), getattr(other, key)]))
+
+        return new_rule
+
     @staticmethod
     def new_rule(*ruleset):
         """
