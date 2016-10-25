@@ -34,6 +34,7 @@ ATTACKPCAP = 'attacks.pcap'
 ATTACKPCAP_LEN = count_pcap_packet(ATTACKPCAP)
 NORMALPCAP = 'normals.pcap'
 NORMALPCAP_LEN = count_pcap_packet(NORMALPCAP)
+MUTATION_PERCENTAGE = 60  # 0 ~ 100
 
 
 class Rule:
