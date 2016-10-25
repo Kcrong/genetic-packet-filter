@@ -108,8 +108,15 @@ class Rule:
     def __add__(self, other):
         new_rule = Rule()
 
-        for key in self.__dict__.keys():
-            setattr(new_rule, key, rand_choice([getattr(self, key), getattr(other, key)]))
+        while True:
+            for key in self.__dict__.keys():
+                setattr(new_rule, key, rand_choice([getattr(self, key), getattr(other, key)]))
+
+            # 만약 new_rule 의 attr 이 다 None 이면
+            if all([getattr(new_rule, _key) is None for _key in ['src_ip', 'dst_ip', 'src_port', 'dst_port']]) is True:
+                continue
+            else:
+                break
 
         return new_rule
 
