@@ -264,10 +264,10 @@ class Generation:
 
                     parents.append(dna)  # 선출
 
-                    if len(parents) == 2:
-                        return parents[0], parents[1]
             else:
                 continue
+
+        return parents[0], parents[1]
 
     def next(self):
         """
