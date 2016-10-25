@@ -291,11 +291,11 @@ class Generation:
 
     @property
     def best_dna(self):
-        return self.dna_list[0]
+        return self.__best_dna
 
     @property
     def worst_dna(self):
-        return self.dna_list[-1]
+        return self.__worst_dna
 
 
 def main():
