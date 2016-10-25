@@ -13,9 +13,6 @@ from random import random, randint
 
 from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter
-from utility.logging import Logging
-
-logger = Logging()
 
 
 def count_pcap_packet(filename):
