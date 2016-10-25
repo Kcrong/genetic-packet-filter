@@ -9,9 +9,9 @@ We Need:
 
 from pcapy import open_offline
 from random import choice as rand_choice
-from random import random
+from random import random, randint
 
-from pcap_manager.total import parse_all_ip_port
+from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter
 from utility.logging import Logging
 
