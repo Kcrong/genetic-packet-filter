@@ -115,6 +115,11 @@ class Rule:
             # 만약 new_rule 의 attr 이 다 None 이면
             if all([getattr(new_rule, _key) is None for _key in ['src_ip', 'dst_ip', 'src_port', 'dst_port']]) is True:
                 continue
+            # 만약 new_rule 의 모든 attr_active 가 False 면
+            elif all([getattr(new_rule, _key) is False
+                      for _key in ['src_ip_active', 'dst_ip_active', 'src_port_active', 'dst_port_active']  # key 중에
+                      if getattr(new_rule, _key[:len(_key)-7]) is not None]) is True:  # active 속성의 attr 가 None 이 아닌 것만
+                continue
             else:
                 break
 
