@@ -211,6 +211,10 @@ class DNA:
     def __repr__(self):
         return "<DNA %d fitness>" % self.fitness
 
+    def __add__(self, other):
+        new_rule = self.rule + other.rule
+        return DNA(new_rule)
+
 
 class Generation:
     count = 0
