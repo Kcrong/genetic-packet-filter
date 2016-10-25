@@ -241,7 +241,11 @@ class Generation:
         Generation.count += 1
 
         self.level = Generation.count
-        self.dna_list = sorted(dna_list, key=lambda x: x.fitness, reverse=True)
+        self.dna_list = dna_list
+
+        sorted_dna_list = sorted(dna_list, key=lambda x: x.fitness, reverse=True)
+        self.__best_dna = sorted_dna_list[0]
+        self.__worst_dna = sorted_dna_list[-1]
 
         # dna_list 가 30개면, 생성할 수 있는 자식 dna 는 (30*29)/2 = 435
 
