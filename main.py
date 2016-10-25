@@ -236,15 +236,19 @@ class Generation:
         """
         부모가 될 DNA 를 선출하는 함수.
         선출될 확률은 해당 DNA 의 fitness 값에 비례함.
-        :return: DNA object
+        :return: DNA object tuple
         """
 
-        while True:  # 부모 DNA 가 선출될 때 까지
-            for dna in self.dna_list:
-                if dna.fitness > randint(self.min_fitness, self.max_fitness):
-                    return dna
+        parents = list()
+
+        while len(parents) == 2:  # 부모 DNA 가 모두 선출될 때 까지
+            for dna in self.dna_list:  # 자신의 dna_list 중에서
+                if dna.fitness > randint(self.min_fitness, self.max_fitness):  # 적합도에 비례하게
+                    if len(parents) == 0 or parents[0] != dna:  # 기존에 선출된 DNA 를 제외하고
+                        parents.append(dna)  # 선출
             else:
                 continue
+        return parents[0], parents[1]
 
 
 def main():
