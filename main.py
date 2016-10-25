@@ -258,6 +258,20 @@ class Generation:
                 continue
         return parents[0], parents[1]
 
+    def next(self):
+        """
+        Goto Next Generation!
+        :return: Next level Generation object
+        """
+        new_generation_dna = list()
+
+        for _ in range(len(self.dna_list)):
+            mom, dad = self.__select_parent()
+            child = mom + dad
+            new_generation_dna.append(child)
+
+        return Generation(new_generation_dna)
+
 
 def main():
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port('output.pcap')
