@@ -230,18 +230,10 @@ class Filter:
         return handler.called
 
     def _calc_score(self):
-        score = 0
-
         self.detected = int(self.__run_by_rule(ATTACKPCAP))
         self.wrong = int(self.__run_by_rule(NORMALPCAP))
 
-        attack_score = ATTACKPCAP_LEN - self.detected
-        normal_score = NORMALPCAP_LEN - self.wrong
-
-        score -= attack_score
-        score += normal_score
-
-        return score
+        return self.detected + (NORMALPCAP_LEN - self.wrong)
 
     @property
     def score(self):
