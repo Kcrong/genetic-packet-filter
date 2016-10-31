@@ -117,10 +117,12 @@ class Rule:
         """
 
         data = list()
-        maximum -= 1
+
+        assert maximum > cnt
+
         for _ in range(cnt):
             while True:
-                rand = randint(1, maximum)
+                rand = randint(0, maximum)
                 if rand not in data:
                     data.append(rand)
                     break
@@ -128,44 +130,37 @@ class Rule:
 
     @staticmethod
     def cross2point(list_data1, list_data2):
-        length = len(list_data1)
+        arg_data = [list_data1, list_data2]
+        max_length = max([len(list_data1), len(list_data2)])
 
+        # 교차할 포인트 결정
         try:
-            assert length == len(list_data2)
+            mix_point = Rule.no_same_randint(max_length, 2)  # 2 point mix
         except AssertionError:
-            print("Arg list are not same length!!")
-            raise
-        else:
-            arg_data = [list_data1, list_data2]
+            return list_data1 + list_data2
 
-            # 교차할 포인트 결정
-            mix_point = Rule.no_same_randint(length, 2)  # 2 point mix
+        source_idx = 0
+        source = arg_data[source_idx]
 
-            source_idx = 0
-            source = arg_data[source_idx]
+        mix_data = list()
 
-            mix_data = list()
-
-            for idx in range(length):
-                if idx in mix_point:
-                    try:
-                        source = arg_data[source_idx + 1]
-                        source_idx += 1
-                    except IndexError:
-                        source = arg_data[0]
-                        source_idx = 0
+        for idx in range(3):
+            if idx in mix_point:
+                try:
+                    source = arg_data[source_idx + 1]
+                    source_idx += 1
+                except IndexError:
+                    source = arg_data[0]
+                    source_idx = 0
+            try:
                 mix_data.append(source[idx])
+            except IndexError:
+                pass
 
-            return mix_data
+        return mix_data
 
     def __add__(self, other):
-        while True:
-            new_rule = Rule(*Rule.cross2point(self.__to_list(), other.__to_list()))
-
-            if repr(new_rule) == "":
-                continue
-            else:
-                return new_rule
+        return Rule(Rule.cross2point(self.set_list, other.set_list))
 
     @staticmethod
     def random_t_or_f():
@@ -318,13 +313,13 @@ class Generation:
 def main():
     # Init Rule data
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port(['attacks_telnet.pcap'])
-    rule_set = [Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port) for _ in range(100)]
+    rule_set = Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port, 100)
     first_dna_list = sorted([DNA(rule) for rule in rule_set], key=lambda x: x.fitness, reverse=True)
 
     g = Generation(first_dna_list)
 
     for _ in range(500):
-        print "Best: %s -> %d\n" % (rand_choice(g.dna_list).rule, g.best_dna.fitness)
+        print "Best: %s -> %d\n" % (g.best_dna.rule, g.best_dna.fitness)
         try:
             g = g.next()
         except CompleteEvolution:
