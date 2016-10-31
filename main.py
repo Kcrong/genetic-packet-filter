@@ -218,21 +218,8 @@ class Rule:
                 return new_rule
 
     @staticmethod
-    def new_rule(*ruleset):
-        """
-        :param ruleset: 규칙 리스트
-        :return: 리스트의 규칙을 조합한 새로운 규칙 (Random Base)
-        """
-        return Rule(
-            src_ip=rand_choice(ruleset).ip,
-            src_ip_active=rand_choice(ruleset).ip_active,
-            src_port=rand_choice(ruleset).port,
-            src_port_active=rand_choice(ruleset).port_active,
-            dst_ip=rand_choice(ruleset).ip,
-            dst_ip_active=rand_choice(ruleset).ip_active,
-            dst_port=rand_choice(ruleset).port,
-            dst_port_active=rand_choice(ruleset).port_active
-        )
+    def random_t_or_f():
+        return rand_choice(Rule.t_or_f)
 
     @staticmethod
     def init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port):
