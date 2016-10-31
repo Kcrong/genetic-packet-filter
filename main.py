@@ -287,8 +287,13 @@ class Filter:
             return
 
         opener = open_offline(pcap)
-
-        opener.setfilter(str(self.rule))
+        try:
+            opener.setfilter(str(self.rule))
+        except PcapError as e:
+            if e.message == 'expression rejects all packets':
+                return 0
+            else:
+                raise
         opener.loop(0, handler)
 
         return handler.called
