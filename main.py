@@ -32,6 +32,13 @@ SRC = True
 DST = False
 
 
+def check_active(active, string):
+    if active is False:
+        return "not " + string
+    else:
+        return string
+
+
 class IP:
     def __init__(self, ip_type, address, active):
         self.type = ip_type
