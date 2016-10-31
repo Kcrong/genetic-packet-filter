@@ -262,6 +262,8 @@ class Generation:
                 if dna.fitness >= randint(self.worst_dna.fitness, self.best_dna.fitness) \
                         and (len(parents) == 0 or parents[0] != dna):  # 적합도에 비례하게 & 기존에 선출된 DNA 를 제외하고
 
+                    if len(parents) > 2:
+                        break
                     parents.append(dna)  # 선출
 
             else:
