@@ -305,21 +305,7 @@ class Generation:
         :return: DNA object tuple
         """
 
-        parents = list()
-
-        while len(parents) < 2:  # 부모 DNA 가 모두 선출될 때 까지
-            for dna in self.dna_list:  # 자신의 dna_list 중에서
-                if dna.fitness >= randint(self.worst_dna.fitness, self.best_dna.fitness) \
-                        and (len(parents) == 0 or parents[0] != dna):  # 적합도에 비례하게 & 기존에 선출된 DNA 를 제외하고
-
-                    if len(parents) >= 2:
-                        break
-                    parents.append(dna)  # 선출
-
-            else:
-                continue
-
-        return parents[0], parents[1]
+        return rand_choice(self.parent_roulette), rand_choice(self.parent_roulette)
 
     def next(self):
         """
