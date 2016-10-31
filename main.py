@@ -100,7 +100,10 @@ class Rule:
 
         while True:
             for key in self.__dict__.keys():
-                setattr(new_rule, key, rand_choice([getattr(self, key), getattr(other, key)]))
+                if random() < MUTATION_PERCENTAGE/100.0:
+                    setattr(new_rule, key, None)
+                else:
+                    setattr(new_rule, key, rand_choice([getattr(self, key), getattr(other, key)]))
 
             # 만약 new_rule 의 attr 이 다 None 이면
             if all([getattr(new_rule, _key) is None for _key in ['src_ip', 'dst_ip', 'src_port', 'dst_port']]) is True:
@@ -255,8 +258,6 @@ class Generation:
         parents = list()
 
         while len(parents) <= 2:  # 부모 DNA 가 모두 선출될 때 까지
-            if random() < MUTATION_PERCENTAGE/100.0:  # 돌연변이~
-                parents.append(rand_choice(self.dna_list))
             for dna in self.dna_list:  # 자신의 dna_list 중에서
                 if dna.fitness >= randint(self.worst_dna.fitness, self.best_dna.fitness) \
                         and (len(parents) == 0 or parents[0] != dna):  # 적합도에 비례하게 & 기존에 선출된 DNA 를 제외하고
