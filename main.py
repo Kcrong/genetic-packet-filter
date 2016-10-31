@@ -332,11 +332,6 @@ class Generation:
         return self.__worst_dna
 
 
-class CompleteGeneration(Exception):
-    def __init__(self):
-        pass
-
-
 def main():
     # Init Rule data
     all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port(['attacks_telnet.pcap'])
