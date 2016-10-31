@@ -95,6 +95,10 @@ class Rule:
     def __str__(self):
         return self.__to_str()
 
+    def __to_list(self):
+        return [self.src_ip, self.src_ip_active, self.dst_ip, self.dst_ip_active, self.src_port, self.src_port_active,
+                self.dst_port, self.dst_port_active]
+
     def __add__(self, other):
         new_rule = Rule()
 
