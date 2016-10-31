@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from pcapy import open_offline
+from pcapy import open_offline, PcapError
 from random import choice as rand_choice
 from random import random, randint
 
@@ -92,70 +92,20 @@ class Rule:
     t_or_f = [True, False]
     filter_attr = [False, True]
 
-    def __init__(self,
-                 src_ip=None,
-                 src_ip_active=True,
-                 dst_ip=None,
-                 dst_ip_active=True,
-                 src_port=None,
-                 src_port_active=True,
-                 dst_port=None,
-                 dst_port_active=True
-                 ):
-        self.src_ip = src_ip
-        self.src_ip_active = src_ip_active
-        self.dst_ip = dst_ip
-        self.dst_ip_active = dst_ip_active
-        self.src_port = src_port
-        self.src_port_active = src_port_active
-        self.dst_port = dst_port
-        self.dst_port_active = dst_port_active
+    def __init__(self, rule_set):
+        self.set_list = list()
+        for rule in rule_set:
+            if rule not in self.set_list:
+                self.set_list.append(rule)
 
     def __to_str(self):
-        # make ip rule to string
-        rule_data = list()
-
-        if self.src_ip is not None:
-            rule = "ip src %s " % self.src_ip
-
-            if self.src_ip_active is False:
-                rule = "not " + rule
-
-            rule_data.append(rule)
-
-        if self.dst_ip is not None:
-            rule = "ip dst %s" % self.dst_ip
-
-            if self.dst_ip_active is False:
-                rule = "not " + rule
-
-            rule_data.append(rule)
-
-        if self.src_port is not None:
-            add_format = "src port %d"
-            if self.src_port_active is False:
-                add_format = "not " + add_format
-
-            rule_data.append(add_format % self.src_port)
-
-        if self.dst_port is not None:
-            add_format = "dst port %d"
-            if self.dst_port_active is False:
-                add_format = "not " + add_format
-
-            rule_data.append(add_format % self.dst_port)
-
-        return " and ".join(rule_data)
+        return " and ".join([repr(rule) for rule in self.set_list])
 
     def __repr__(self):
         return self.__to_str()
 
     def __str__(self):
         return self.__to_str()
-
-    def __to_list(self):
-        return [self.src_ip, self.src_ip_active, self.dst_ip, self.dst_ip_active, self.src_port, self.src_port_active,
-                self.dst_port, self.dst_port_active]
 
     @staticmethod
     def no_same_randint(maximum, cnt):
