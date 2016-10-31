@@ -278,10 +278,26 @@ class Generation:
         self.__best_dna = sorted_dna_list[0]
         self.__worst_dna = sorted_dna_list[-1]
 
+        self.parent_roulette = self.make_roulette_by_fitness()
+
         # dna_list 가 30개면, 생성할 수 있는 자식 dna 는 (30*29)/2 = 435
 
     def __repr__(self):
         return "<Generation %d>" % self.level
+
+    def make_roulette_by_fitness(self):
+        """
+        Make list by dna fitness
+        :return: list data
+        """
+
+        min_fitness = self.worst_dna.fitness
+        roulette = list()
+
+        for dna in self.dna_list:
+            roulette += [dna for _ in range(dna.fitness - min_fitness)]
+
+        return roulette
 
     def __select_parent(self):
         """
