@@ -222,40 +222,24 @@ class Rule:
         return rand_choice(Rule.t_or_f)
 
     @staticmethod
-    def init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port):
+    def init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port, cnt):
+        ip_list = list()
+        port_list = list()
+        rule_list = list()
 
-        param_data = dict(
-            src_ip=None,
-            src_port=None,
-            dst_ip=None,
-            dst_port=None,
-            src_ip_active=None,
-            src_port_active=None,
-            dst_ip_active=None,
-            dst_port_active=None
-        )
-        param_data_keys = ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_ip_active', 'src_port_active',
-                           'dst_ip_active', 'dst_port_active']
+        for src_ip, dst_ip in zip(all_src_ip, all_dst_ip):
+            ip_list += [IP(SRC, src_ip, Rule.random_t_or_f()), IP(DST, dst_ip, Rule.random_t_or_f())]
 
-        while True:
+        for src_port, dst_port in zip(all_src_port, all_dst_port):
+            port_list += [Port(SRC, src_port, Rule.random_t_or_f()), Port(DST, dst_port, Rule.random_t_or_f())]
 
-            for idx, key, data in zip(range(4), param_data_keys, [all_src_ip, all_src_port, all_dst_ip, all_dst_port]):
-                if random() > 0.5:
-                    param_data[key] = rand_choice(data)
-                    param_data[param_data_keys[idx + 4]] = rand_choice(Rule.t_or_f)
+        total_list = ip_list + port_list
+        total_cnt = len(total_list)
 
-            rule = Rule(**param_data)
+        for i in range(cnt):
+            rule_list.append(Rule([rand_choice(total_list) for _ in range(randint(1, total_cnt))]))
 
-            if repr(rule) == '':
-                continue
-            else:
-                pass
-
-            for active_key in ['src_ip_active', 'src_port_active', 'dst_ip_active', 'dst_port_active']:
-                if param_data[active_key] is True:
-                    return rule
-            else:
-                continue
+        return rule_list
 
 
 class Filter:
