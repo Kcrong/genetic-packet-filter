@@ -307,7 +307,7 @@ class Generation:
         try:
             return rand_choice(self.parent_roulette), rand_choice(self.parent_roulette)
         except IndexError:
-            raise CompleteGeneration
+            raise CompleteEvolution
 
     def next(self):
         """
