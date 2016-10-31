@@ -157,8 +157,7 @@ class Rule:
             if repr(new_rule) == "":
                 continue
             else:
-                break
-        return new_rule
+                return new_rule
 
     @staticmethod
     def new_rule(*ruleset):
