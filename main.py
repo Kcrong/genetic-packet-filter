@@ -54,6 +54,13 @@ class IP:
             return string
 
 
+class Port:
+    def __init__(self, port_type, number, active):
+        self.type = port_type
+        self.number = number
+        self.active = active
+
+
 class Rule:
     """
     필터링 규칙을 담는 클래스
