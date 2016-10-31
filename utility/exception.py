@@ -25,5 +25,5 @@ class InvalidRuleException(Exception):
     pass
 
 
-class CompleteGeneration(Exception):
+class CompleteEvolution(Exception):
     pass

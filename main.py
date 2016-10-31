@@ -6,7 +6,7 @@ from random import random, randint
 
 from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter
-from utility.exception import CompleteGeneration
+from utility.exception import CompleteEvolution
 
 
 def count_pcap_packet(filename):
@@ -349,7 +349,7 @@ def main():
         print "Best: %s -> %d\n" % (rand_choice(g.dna_list).rule, g.best_dna.fitness)
         try:
             g = g.next()
-        except CompleteGeneration:
+        except CompleteEvolution:
             print("Complete!!!")
             print(g.best_dna.rule)
             break
