@@ -49,10 +49,7 @@ class IP:
 
         string = string_format % self.address
 
-        if self.active is False:
-            return "not " + string
-        else:
-            return string
+        return check_active(self.active, string)
 
     def __repr__(self):
         return self.__repr_string
@@ -75,10 +72,7 @@ class Port:
 
         string = string_format % self.number
 
-        if self.active is False:
-            return "not " + string
-        else:
-            return string
+        return check_active(self.active, string)
 
     def __repr__(self):
         return self.__repr_string
