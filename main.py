@@ -32,6 +32,28 @@ SRC = True
 DST = False
 
 
+class IP:
+    def __init__(self, ip_type, address, active):
+        self.type = ip_type
+        self.address = address
+        self.active = active
+
+    def __repr__(self):
+        if self.type is SRC:
+            string_format = "ip src %s"
+        elif self.type is DST:
+            string_format = "ip dst %s"
+        else:
+            raise AssertionError("Invalid ip type Only SRC or DST")
+
+        string = string_format % self.address
+
+        if self.active is False:
+            return "not " + string
+        else:
+            return string
+
+
 class Rule:
     """
     필터링 규칙을 담는 클래스
