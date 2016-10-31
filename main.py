@@ -63,6 +63,25 @@ class Port:
         self.type = port_type
         self.number = number
         self.active = active
+        self.__repr_string = self.__make_repr_string()
+
+    def __make_repr_string(self):
+        if self.type is SRC:
+            string_format = "src port %d"
+        elif self.type is DST:
+            string_format = "dst port %d"
+        else:
+            raise AssertionError("Invalid port type Only SRC or DST")
+
+        string = string_format % self.number
+
+        if self.active is False:
+            return "not " + string
+        else:
+            return string
+
+    def __repr__(self):
+        return self.__repr_string
 
 
 class Rule:
