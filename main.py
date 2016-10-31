@@ -109,9 +109,10 @@ class Rule:
         """
 
         data = list()
+        maximum -= 1
         for _ in range(cnt):
             while True:
-                rand = randint(0, maximum)
+                rand = randint(1, maximum)
                 if rand not in data:
                     data.append(rand)
                     break
