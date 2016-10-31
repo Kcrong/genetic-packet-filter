@@ -218,7 +218,7 @@ class Filter:
         self.detected = int(self.__run_by_rule(ATTACKPCAP))
         self.wrong = int(self.__run_by_rule(NORMALPCAP))
 
-        return self.detected + (NORMALPCAP_LEN - self.wrong)
+        return (self.detected + (NORMALPCAP_LEN - self.wrong)) - len(self.rule.set_list)
 
     @property
     def score(self):
