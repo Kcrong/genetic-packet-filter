@@ -151,7 +151,14 @@ class Rule:
             return mix_data
 
     def __add__(self, other):
-        return Rule(*Rule.cross2point(self.__to_list(), other.__to_list()))
+        while True:
+            new_rule = Rule(*Rule.cross2point(self.__to_list(), other.__to_list()))
+
+            if repr(new_rule) == "":
+                continue
+            else:
+                break
+        return new_rule
 
     @staticmethod
     def new_rule(*ruleset):
