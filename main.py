@@ -144,7 +144,7 @@ class Rule:
 
         mix_data = list()
 
-        for idx in range(3):
+        for idx in range(max_length):
             if idx in mix_point:
                 try:
                     source = arg_data[source_idx + 1]
