@@ -37,8 +37,9 @@ class IP:
         self.type = ip_type
         self.address = address
         self.active = active
+        self.__repr_string = self.__make_repr_string()
 
-    def __repr__(self):
+    def __make_repr_string(self):
         if self.type is SRC:
             string_format = "ip src %s"
         elif self.type is DST:
@@ -52,6 +53,9 @@ class IP:
             return "not " + string
         else:
             return string
+
+    def __repr__(self):
+        return self.__repr_string
 
 
 class Port:
