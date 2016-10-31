@@ -118,6 +118,38 @@ class Rule:
                     break
         return data
 
+    @staticmethod
+    def cross2point(list_data1, list_data2):
+        length = len(list_data1)
+
+        try:
+            assert length == len(list_data2)
+        except AssertionError:
+            print("Arg list are not same length!!")
+            raise
+        else:
+            arg_data = [list_data1, list_data2]
+
+            # 교차할 포인트 결정
+            mix_point = Rule.no_same_randint(length, 2)  # 2 point mix
+
+            source_idx = 0
+            source = arg_data[source_idx]
+
+            mix_data = list()
+
+            for idx in range(length):
+                if idx in mix_point:
+                    try:
+                        source = arg_data[source_idx + 1]
+                        source_idx += 1
+                    except IndexError:
+                        source = arg_data[0]
+                        source_idx = 0
+                mix_data.append(source[idx])
+
+            return mix_data
+
     def __add__(self, other):
         new_rule = Rule()
 
