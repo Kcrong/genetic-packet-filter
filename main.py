@@ -99,6 +99,24 @@ class Rule:
         return [self.src_ip, self.src_ip_active, self.dst_ip, self.dst_ip_active, self.src_port, self.src_port_active,
                 self.dst_port, self.dst_port_active]
 
+    @staticmethod
+    def no_same_randint(maximum, cnt):
+        """
+        cnt 만큼 최대 maximum 의 양수를 반환
+        :param maximum: 최댓값
+        :param cnt: 반환할 데이터의 갯수
+        :return: random data by cnt
+        """
+
+        data = list()
+        for _ in range(cnt):
+            while True:
+                rand = randint(0, maximum)
+                if rand not in data:
+                    data.append(rand)
+                    break
+        return data
+
     def __add__(self, other):
         new_rule = Rule()
 
