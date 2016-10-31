@@ -23,3 +23,7 @@ class ignore:
 
 class InvalidRuleException(Exception):
     pass
+
+
+class CompleteGeneration(Exception):
+    pass

@@ -6,6 +6,7 @@ from random import random, randint
 
 from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter
+from utility.exception import CompleteGeneration
 
 
 def count_pcap_packet(filename):
