@@ -27,6 +27,10 @@ NORMALPCAP = 'normals.pcap'
 NORMALPCAP_LEN = count_pcap_packet(NORMALPCAP)
 MUTATION_PERCENTAGE = 60  # 0 ~ 100
 
+# Type
+SRC = True
+DST = False
+
 
 class Rule:
     """
