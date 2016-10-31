@@ -303,8 +303,10 @@ class Generation:
         선출될 확률은 해당 DNA 의 fitness 값에 비례함.
         :return: DNA object tuple
         """
-
-        return rand_choice(self.parent_roulette), rand_choice(self.parent_roulette)
+        try:
+            return rand_choice(self.parent_roulette), rand_choice(self.parent_roulette)
+        except IndexError:
+            raise CompleteGeneration
 
     def next(self):
         """
