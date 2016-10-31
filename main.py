@@ -346,7 +346,13 @@ def main():
 
     for _ in range(500):
         print "Best: %s -> %d\n" % (rand_choice(g.dna_list).rule, g.best_dna.fitness)
-        g = g.next()
+        try:
+            g = g.next()
+        except CompleteGeneration:
+            print("Complete!!!")
+            print(g.best_dna.rule)
+            break
+
 
 if __name__ == '__main__':
     main()
