@@ -48,5 +48,17 @@ def return2type(type2change):
             result_type = type(result)
 
             return result_type([type2change(data) for data in result])
+
         return wrapper
+
     return real_deco
+
+
+def remove_dup_by_key(dup_data_list, key):
+    key_list = list()
+    data_list = list()
+
+    for data in dup_data_list:
+        if key(data) not in key_list:
+            data_list.append(data)
+    return data_list
