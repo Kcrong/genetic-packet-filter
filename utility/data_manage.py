@@ -61,4 +61,5 @@ def remove_dup_by_key(dup_data_list, key):
     for data in dup_data_list:
         if key(data) not in key_list:
             data_list.append(data)
+            key_list.append(key(data))
     return data_list
