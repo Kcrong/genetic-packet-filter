@@ -7,6 +7,7 @@ from random import randint
 from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter
 from utility.exception import CompleteEvolution
+from utility.data_manage import remove_dup_by_key
 
 
 def count_pcap_packet(filename):
@@ -324,7 +325,8 @@ def main():
             g = g.next()
         except CompleteEvolution:
             print("Complete!!!")
-            print(g.best_dna.rule)
+            for dna in remove_dup_by_key(g.dna_list, lambda x: repr(x.rule)):
+                print(dna.rule)
             break
 
 
