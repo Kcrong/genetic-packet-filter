@@ -1,13 +1,17 @@
 # coding=utf-8
-
+from collections import deque
 from pcapy import open_offline, PcapError
 from random import choice as rand_choice
 from random import randint
 from random import random
 
+from matplotlib.animation import FuncAnimation
+from matplotlib.pyplot import figure, axes, show, plot
+
 from pcap_manager.get_info import parse_all_ip_port
-from utility.coverage import timer, counter
+from utility.coverage import timer, counter, Counter
 from utility.data_manage import remove_dup_by_key
+from utility.exception import CompleteEvolution
 
 
 def count_pcap_packet(filename):
@@ -22,6 +26,12 @@ def count_pcap_packet(filename):
     return handler.called
 
 
+# 목표 적합도
+WE_WANT = 170
+
+# 진화 세대 수
+GENERATION_COUNT = 30
+
 ATTACKPCAP = 'attacks_telnet.pcap'
 ATTACKPCAP_LEN = count_pcap_packet(ATTACKPCAP)
 NORMALPCAP = 'normals.pcap'
@@ -35,6 +45,11 @@ DST = False
 INIT_PCAP_LIST = [ATTACKPCAP, NORMALPCAP]
 
 ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT = parse_all_ip_port(INIT_PCAP_LIST)
+
+# Visualization
+GRAPH_LINE = deque([0], maxlen=100)
+GENERATION_LIST = list()
+CNT = Counter()
 
 
 def check_active(active, string):
@@ -182,8 +197,8 @@ class Rule:
         while True:
             # MUTATION!!!
             if MUTATION_PERCENTAGE / 100.0 > random():
-                    mix_data.append(Rule.random_ip_or_port())
-                    mix_data.remove(rand_choice(mix_data))
+                mix_data.append(Rule.random_ip_or_port())
+                mix_data.remove(rand_choice(mix_data))
             else:
                 break
 
@@ -339,19 +354,42 @@ class Generation:
         return self.__worst_dna
 
 
+# Init Rule data
+rule_set = Rule.init_random_rule(ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT, 100)
+first_dna_list = sorted([DNA(rule) for rule in rule_set], key=lambda x: x.fitness, reverse=True)
+
+GENERATION_LIST.append(Generation(first_dna_list))
+
+
+def visualization(_, l2d):
+    generation = GENERATION_LIST[-1]
+    print "%s : Best: %s -> %d\n" % (CNT, generation.best_dna.rule, generation.best_dna.fitness)
+    fitness = generation.best_dna.fitness
+    GRAPH_LINE.append(fitness)
+
+    plot([WE_WANT] * 100, color='red')
+
+    # 다음 세대 적합도 라인 그리기
+    l2d.set_data(range(0, len(GRAPH_LINE)), GRAPH_LINE)
+
+    if generation.best_dna.fitness >= WE_WANT or CNT.count >= GENERATION_COUNT:
+        for dna in generation.dna_list:
+            print dna.rule
+        print "Complete!!"
+        print "Best: %s" % generation.best_dna.rule
+        exit()
+
+    GENERATION_LIST.append(generation.next())
+
+
 def main():
-    # Init Rule data
-    rule_set = Rule.init_random_rule(ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT, 100)
-    first_dna_list = sorted([DNA(rule) for rule in rule_set], key=lambda x: x.fitness, reverse=True)
+    # Setting Visualization
+    fig = figure()
 
-    g = Generation(first_dna_list)
+    l1, = axes(xlim=(0, GENERATION_COUNT), ylim=(0, 180)).plot([], [])
+    ani = FuncAnimation(fig, visualization, fargs=(l1,), interval=50)
 
-    for _ in range(10):
-        print "Best: %s -> %d\n" % (g.best_dna.rule, g.best_dna.fitness)
-        g = g.next()
-
-    print("Complete!!!")
-    print "Best: %s -> %d\n" % (g.best_dna.rule, g.best_dna.fitness)
+    show()
 
 
 if __name__ == '__main__':
