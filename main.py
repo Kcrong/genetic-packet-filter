@@ -3,6 +3,7 @@
 from pcapy import open_offline, PcapError
 from random import choice as rand_choice
 from random import randint
+from random import random
 
 from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter
@@ -178,6 +179,13 @@ class Rule:
             except IndexError:
                 pass
 
+        while True:
+            # MUTATION!!!
+            if MUTATION_PERCENTAGE / 100.0 > random():
+                mix_data.append(Rule.random_ip_or_port())
+            else:
+                break
+
         return mix_data
 
     def __add__(self, other):
@@ -337,12 +345,14 @@ def main():
 
     g = Generation(first_dna_list)
 
-    for _ in range(500):
+    for _ in range(10):
         print "Best: %s -> %d\n" % (g.best_dna.rule, g.best_dna.fitness)
         g = g.next()
 
     print("Complete!!!")
+    print("not ip dst 10.189.0.127 and ip src 192.168.44.1 and dst port 23 and src port 58634")
     for dna in g.dna_list:
+        continue
         print(dna.rule)
 
 
