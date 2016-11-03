@@ -21,7 +21,7 @@ def count_pcap_packet(filename):
     return handler.called
 
 
-INIT_PCAP = 'attacks_telnet.pcap'
+INIT_PCAP = ['attacks_telnet.pcap']
 ATTACKPCAP = 'attacks.pcap'
 ATTACKPCAP_LEN = count_pcap_packet(ATTACKPCAP)
 NORMALPCAP = 'normals.pcap'
@@ -32,7 +32,7 @@ MUTATION_PERCENTAGE = 60  # 0 ~ 100
 SRC = True
 DST = False
 
-ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT = parse_all_ip_port([INIT_PCAP])
+ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT = parse_all_ip_port(INIT_PCAP)
 
 
 def check_active(active, string):
