@@ -1,0 +1,16 @@
+chardet==2.3.0
+coverage==4.2
+cycler==0.10.0
+decorator==4.0.10
+dpkt==1.8.8
+impacket==0.9.15
+matplotlib==1.5.3
+numpy==1.11.2
+pcapy==0.10.10
+public==0.0.0
+pyparsing==2.1.10
+python-dateutil==2.5.3
+pytz==2016.7
+scapy==2.3.3
+setupfiles==0.0.13
+six==1.10.0
