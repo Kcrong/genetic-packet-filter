@@ -7,6 +7,7 @@ from random import random
 
 from matplotlib.animation import FuncAnimation
 from matplotlib.pyplot import figure, axes, show, plot
+from numpy import mean
 
 from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter, Counter
@@ -25,29 +26,28 @@ def count_pcap_packet(filename):
 
     return handler.called
 
-
-# 목표 적합도
-WE_WANT = 170
-
 # 진화 세대 수
-GENERATION_COUNT = 30
+GENERATION_COUNT = 300
 
-ATTACKPCAP = 'attacks_telnet.pcap'
+ATTACKPCAP = 'attacks.pcap'
 ATTACKPCAP_LEN = count_pcap_packet(ATTACKPCAP)
-NORMALPCAP = 'normals.pcap'
+NORMALPCAP = 'pjhs.pcap'
 NORMALPCAP_LEN = count_pcap_packet(NORMALPCAP)
-MUTATION_PERCENTAGE = 60  # 0 ~ 100
+MUTATION_PERCENTAGE = 30  # 0 ~ 100
 
 # Type
 SRC = True
 DST = False
 
-INIT_PCAP_LIST = [ATTACKPCAP, NORMALPCAP]
+INIT_PCAP_LIST = [ATTACKPCAP]
 
 ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT = parse_all_ip_port(INIT_PCAP_LIST)
 
+ALL_IP = ALL_SRC_IP + ALL_DST_IP
+ALL_PORT = ALL_SRC_PORT + ALL_DST_PORT
+
 # Visualization
-GRAPH_LINE = deque([0], maxlen=100)
+GRAPH_LINE = deque([0], maxlen=GENERATION_COUNT)
 GENERATION_LIST = list()
 CNT = Counter()
 
@@ -107,8 +107,8 @@ class Port:
 
 # For make Random rule at mutation
 MAPDATA = {
-    IP: {SRC: ALL_SRC_IP, DST: ALL_DST_IP},
-    Port: {SRC: ALL_SRC_PORT, DST: ALL_DST_PORT}
+    IP: ALL_IP,
+    Port: ALL_PORT
 }
 
 
@@ -161,7 +161,7 @@ class Rule:
         rule_class = rand_choice([IP, Port])
         active = rand_choice([True, False])
 
-        rule_data = rand_choice(MAPDATA[rule_class][rule_type])
+        rule_data = rand_choice(MAPDATA[rule_class])
 
         return rule_class(rule_type, rule_data, active)
 
@@ -218,10 +218,17 @@ class Rule:
         rule_list = list()
 
         for src_ip, dst_ip in zip(all_src_ip, all_dst_ip):
-            ip_list += [IP(SRC, src_ip, Rule.random_t_or_f()), IP(DST, dst_ip, Rule.random_t_or_f())]
+            ip_list.append(IP(
+                rand_choice([SRC, DST]),
+                rand_choice([src_ip, dst_ip]),
+                Rule.random_t_or_f()))
 
         for src_port, dst_port in zip(all_src_port, all_dst_port):
-            port_list += [Port(SRC, src_port, Rule.random_t_or_f()), Port(DST, dst_port, Rule.random_t_or_f())]
+            port_list.append(Port(
+                rand_choice([SRC, DST]),
+                rand_choice([src_port, dst_port]),
+                Rule.random_t_or_f()
+            ))
 
         total_list = ip_list + port_list
         total_cnt = len(total_list)
@@ -305,8 +312,13 @@ class Generation:
 
         # dna_list 가 30개면, 생성할 수 있는 자식 dna 는 (30*29)/2 = 435
 
+        self.__fitness = self.__calc_generation_fitness()
+
     def __repr__(self):
         return "<Generation %d>" % self.level
+
+    def __calc_generation_fitness(self):
+        return mean([dna.fitness for dna in self.dna_list])
 
     def make_roulette_by_fitness(self):
         """
@@ -353,6 +365,10 @@ class Generation:
     def worst_dna(self):
         return self.__worst_dna
 
+    @property
+    def fitness(self):
+        return self.__fitness
+
 
 # Init Rule data
 rule_set = Rule.init_random_rule(ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT, 100)
@@ -363,21 +379,20 @@ GENERATION_LIST.append(Generation(first_dna_list))
 
 def visualization(_, l2d):
     generation = GENERATION_LIST[-1]
-    print "%s : Best: %s -> %d\n" % (CNT, generation.best_dna.rule, generation.best_dna.fitness)
-    fitness = generation.best_dna.fitness
-    GRAPH_LINE.append(fitness)
+    print "%s : Best: %s -> %f\n" % (CNT, generation.best_dna.rule, generation.fitness)
+    GRAPH_LINE.append(generation.fitness)
 
-    plot([WE_WANT] * 100, color='red')
+    # plot([WE_WANT] * 100, color='red')
 
     # 다음 세대 적합도 라인 그리기
     l2d.set_data(range(0, len(GRAPH_LINE)), GRAPH_LINE)
 
-    if generation.best_dna.fitness >= WE_WANT or CNT.count >= GENERATION_COUNT:
+    if CNT.count >= GENERATION_COUNT:
         for dna in generation.dna_list:
             print dna.rule
         print "Complete!!"
         print "Best: %s" % generation.best_dna.rule
-        exit()
+        raise CompleteEvolution
 
     GENERATION_LIST.append(generation.next())
 
@@ -386,7 +401,7 @@ def main():
     # Setting Visualization
     fig = figure()
 
-    l1, = axes(xlim=(0, GENERATION_COUNT), ylim=(0, 180)).plot([], [])
+    l1, = axes(xlim=(0, GENERATION_COUNT), ylim=(5000, 13000)).plot([], [])
     ani = FuncAnimation(fig, visualization, fargs=(l1,), interval=50)
 
     show()
