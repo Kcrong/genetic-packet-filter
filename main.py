@@ -89,6 +89,13 @@ class Port:
         return self.__repr_string
 
 
+# For make Random rule at mutation
+MAPDATA = {
+    IP: {SRC: ALL_SRC_IP, DST: ALL_DST_IP},
+    Port: {SRC: ALL_SRC_PORT, DST: ALL_DST_PORT}
+}
+
+
 class Rule:
     """
     필터링 규칙을 담는 클래스
@@ -131,6 +138,16 @@ class Rule:
                     data.append(rand)
                     break
         return data
+
+    @staticmethod
+    def random_ip_or_port():
+        rule_type = rand_choice([SRC, DST])
+        rule_class = rand_choice([IP, Port])
+        active = rand_choice([True, False])
+
+        rule_data = rand_choice(MAPDATA[rule_class][rule_type])
+
+        return rule_class(rule_type, rule_data, active)
 
     @staticmethod
     def cross2point(list_data1, list_data2):
