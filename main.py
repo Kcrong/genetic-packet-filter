@@ -182,7 +182,10 @@ class Rule:
         while True:
             # MUTATION!!!
             if MUTATION_PERCENTAGE / 100.0 > random():
-                mix_data.append(Rule.random_ip_or_port())
+                if 0.5 > random():
+                    mix_data.append(Rule.random_ip_or_port())
+                else:
+                    mix_data.remove(rand_choice(mix_data))
             else:
                 break
 
