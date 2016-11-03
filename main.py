@@ -320,13 +320,11 @@ def main():
 
     for _ in range(500):
         print "Best: %s -> %d\n" % (g.best_dna.rule, g.best_dna.fitness)
-        try:
-            g = g.next()
-        except CompleteEvolution:
-            print("Complete!!!")
-            for dna in remove_dup_by_key(g.dna_list, lambda x: repr(x.rule)):
-                print(dna.rule)
-            break
+        g = g.next()
+
+    print("Complete!!!")
+    for dna in g.dna_list:
+        print(dna.rule)
 
 
 if __name__ == '__main__':
