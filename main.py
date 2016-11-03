@@ -350,10 +350,7 @@ def main():
         g = g.next()
 
     print("Complete!!!")
-    print("not ip dst 10.189.0.127 and ip src 192.168.44.1 and dst port 23 and src port 58634")
-    for dna in g.dna_list:
-        continue
-        print(dna.rule)
+    print "Best: %s -> %d\n" % (g.best_dna.rule, g.best_dna.fitness)
 
 
 if __name__ == '__main__':
