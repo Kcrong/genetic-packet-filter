@@ -270,7 +270,7 @@ class Generation:
         :return: list data
         """
 
-        min_fitness = self.worst_dna.fitness
+        min_fitness = self.worst_dna.fitness - 1
         roulette = list()
 
         for dna in self.dna_list:
@@ -284,10 +284,8 @@ class Generation:
         선출될 확률은 해당 DNA 의 fitness 값에 비례함.
         :return: DNA object tuple
         """
-        try:
-            return rand_choice(self.parent_roulette), rand_choice(self.parent_roulette)
-        except IndexError:
-            raise CompleteEvolution
+
+        return rand_choice(self.parent_roulette), rand_choice(self.parent_roulette)
 
     def next(self):
         """
