@@ -247,6 +247,7 @@ class Generation:
     count = 0
 
     def __init__(self, dna_list):
+        dna_list = remove_dup_by_key(dna_list, lambda x: repr(x.rule))
         Generation.count += 1
 
         self.level = Generation.count
