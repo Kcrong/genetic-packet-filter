@@ -6,7 +6,6 @@ from random import randint
 
 from pcap_manager.get_info import parse_all_ip_port
 from utility.coverage import timer, counter
-from utility.exception import CompleteEvolution
 from utility.data_manage import remove_dup_by_key
 
 
