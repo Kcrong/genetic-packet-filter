@@ -21,6 +21,7 @@ def count_pcap_packet(filename):
     return handler.called
 
 
+INIT_PCAP = 'attacks_telnet.pcap'
 ATTACKPCAP = 'attacks.pcap'
 ATTACKPCAP_LEN = count_pcap_packet(ATTACKPCAP)
 NORMALPCAP = 'normals.pcap'
@@ -30,6 +31,8 @@ MUTATION_PERCENTAGE = 60  # 0 ~ 100
 # Type
 SRC = True
 DST = False
+
+ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT = parse_all_ip_port([INIT_PCAP])
 
 
 def check_active(active, string):
@@ -311,8 +314,7 @@ class Generation:
 
 def main():
     # Init Rule data
-    all_src_ip, all_dst_ip, all_src_port, all_dst_port = parse_all_ip_port(['attacks_telnet.pcap'])
-    rule_set = Rule.init_random_rule(all_src_ip, all_dst_ip, all_src_port, all_dst_port, 100)
+    rule_set = Rule.init_random_rule(ALL_SRC_IP, ALL_DST_IP, ALL_SRC_PORT, ALL_DST_PORT, 100)
     first_dna_list = sorted([DNA(rule) for rule in rule_set], key=lambda x: x.fitness, reverse=True)
 
     g = Generation(first_dna_list)
